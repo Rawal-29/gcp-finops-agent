@@ -1,0 +1,2 @@
+# Cloud Functions deploy: mirrors agent/requirements.txt (GCF reads root requirements.txt)
+-r agent/requirements.txt

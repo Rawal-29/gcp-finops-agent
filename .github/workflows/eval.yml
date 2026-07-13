@@ -1,0 +1,71 @@
+name: RAGAS Eval Gate
+
+on:
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    # Spins an ephemeral RAG stack (pgvector + API) inside the runner,
+    # seeds it with fixture docs, then scores it with RAGAS.
+    services:
+      postgres:
+        image: pgvector/pgvector:pg16
+        env:
+          POSTGRES_DB: finops_rag
+          POSTGRES_USER: raguser
+          POSTGRES_PASSWORD: ci
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U raguser -d finops_rag"
+          --health-interval 5s --health-retries 10
+
+    env:
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      DB_HOST: localhost
+      DB_PASSWORD: ci
+      RAG_API_URL: http://localhost:8080
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Install deps
+        run: |
+          pip install -r rag/requirements.txt -r evals/requirements.txt
+
+      - name: Start RAG API
+        run: |
+          uvicorn rag.api:app --port 8080 &
+          for i in $(seq 1 30); do curl -sf http://localhost:8080/health && break; sleep 2; done
+
+      - name: Seed fixture corpus
+        run: python -m evals.seed_fixtures
+
+      - name: Run RAGAS evals
+        run: python -m evals.run_evals --threshold-faithfulness 0.85
+
+      - name: Log results to BigQuery
+        if: always() && github.event_name == 'pull_request'
+        env:
+          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
+          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GCP_SA_KEY }}
+        run: |
+          if [ -n "$GOOGLE_APPLICATION_CREDENTIALS_JSON" ]; then
+            echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/sa.json
+            export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.json
+            python -m evals.log_results eval_results.json
+          fi
+
+      - name: Upload report artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-report
+          path: eval_results.json

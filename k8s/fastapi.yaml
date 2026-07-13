@@ -1,0 +1,104 @@
+# Alternative deployment of the FastAPI service on GKE Autopilot.
+# kubectl apply -f k8s/fastapi.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: finops-api
+  labels:
+    app: finops-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: finops-api
+  template:
+    metadata:
+      labels:
+        app: finops-api
+    spec:
+      serviceAccountName: finops-api   # bind to GCP SA via Workload Identity
+      containers:
+        - name: api
+          image: us-central1-docker.pkg.dev/PROJECT_ID/finops/finops-api:latest
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PORT
+              value: "8080"
+            - name: GCP_PROJECT
+              value: "PROJECT_ID"
+            - name: OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: finops-secrets
+                  key: openai-api-key
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: finops-secrets
+                  key: db-password
+            - name: DB_HOST
+              value: "127.0.0.1" # via Cloud SQL Auth Proxy sidecar
+            # In-cluster there is no Cloud Run IAM in front of the service,
+            # so app-level key auth is mandatory here.
+            - name: API_AUTH_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: finops-secrets
+                  key: api-auth-key
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 10
+        # Cloud SQL Auth Proxy sidecar
+        - name: cloud-sql-proxy
+          image: gcr.io/cloud-sql-connectors/cloud-sql-proxy:2.14.0
+          args:
+            - "--structured-logs"
+            - "--port=5432"
+            - "PROJECT_ID:us-central1:finops-pgvector"
+          securityContext:
+            runAsNonRoot: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: finops-api
+spec:
+  type: ClusterIP
+  selector:
+    app: finops-api
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: finops-api
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: finops-api
+  minReplicas: 2
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 70

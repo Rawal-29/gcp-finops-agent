@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+eval_results.json
+evals/candidates.json
+
+# Node / Next.js
+node_modules/
+.next/
+out/
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.backup
+*.tfvars
+!example.tfvars
+infra/modules/cloud_functions/agent-source.zip
+
+# Env / secrets
+.env
+*.json.key
+sa.json
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# TS build cache
+*.tsbuildinfo
