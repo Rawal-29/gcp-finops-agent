@@ -1,0 +1,2128 @@
+{
+  "version": 4,
+  "terraform_version": "1.15.7",
+  "serial": 62,
+  "lineage": "971b6f70-05a2-c41e-33b7-ee68366ca65d",
+  "outputs": {
+    "billing_alerts_topic": {
+      "value": "projects/project-972b17a4-c001-4b85-b4b/topics/billing-alerts",
+      "type": "string"
+    },
+    "ci_sa_email": {
+      "value": "finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+      "type": "string"
+    },
+    "ci_wif_provider": {
+      "value": "projects/845275721742/locations/global/workloadIdentityPools/github-actions/providers/github-oidc",
+      "type": "string"
+    },
+    "docs_bucket": {
+      "value": "project-972b17a4-c001-4b85-b4b-finops-docs",
+      "type": "string"
+    },
+    "gke_cluster_name": {
+      "value": "disabled",
+      "type": "string"
+    },
+    "sql_connection_name": {
+      "value": "project-972b17a4-c001-4b85-b4b:us-central1:finops-pgvector",
+      "type": "string"
+    }
+  },
+  "resources": [
+    {
+      "mode": "managed",
+      "type": "google_project_service",
+      "name": "apis",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "bigquery.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/bigquery.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "bigquery.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "cloudasset.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/cloudasset.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "cloudasset.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "cloudbuild.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/cloudbuild.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "cloudbuild.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "cloudfunctions.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/cloudfunctions.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "cloudfunctions.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "container.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/container.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "container.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "eventarc.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/eventarc.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "eventarc.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "firestore.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/firestore.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "firestore.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "monitoring.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/monitoring.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "monitoring.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "pubsub.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/pubsub.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "pubsub.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "run.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/run.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "run.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "secretmanager.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/secretmanager.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "secretmanager.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "sqladmin.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/sqladmin.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "sqladmin.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        },
+        {
+          "index_key": "storage.googleapis.com",
+          "schema_version": 0,
+          "attributes": {
+            "disable_dependent_services": null,
+            "disable_on_destroy": false,
+            "id": "project-972b17a4-c001-4b85-b4b/storage.googleapis.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "service": "storage.googleapis.com",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInJlYWQiOjYwMDAwMDAwMDAwMCwidXBkYXRlIjoxMjAwMDAwMDAwMDAwfX0="
+        }
+      ]
+    },
+    {
+      "module": "module.bigquery",
+      "mode": "managed",
+      "type": "google_bigquery_dataset",
+      "name": "finops",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "access": [
+              {
+                "condition": [],
+                "dataset": [],
+                "domain": "",
+                "group_by_email": "",
+                "iam_member": "",
+                "role": "OWNER",
+                "routine": [],
+                "special_group": "",
+                "user_by_email": "rawalsandhan2909@gmail.com",
+                "view": []
+              },
+              {
+                "condition": [],
+                "dataset": [],
+                "domain": "",
+                "group_by_email": "",
+                "iam_member": "",
+                "role": "OWNER",
+                "routine": [],
+                "special_group": "projectOwners",
+                "user_by_email": "",
+                "view": []
+              },
+              {
+                "condition": [],
+                "dataset": [],
+                "domain": "",
+                "group_by_email": "",
+                "iam_member": "",
+                "role": "READER",
+                "routine": [],
+                "special_group": "projectReaders",
+                "user_by_email": "",
+                "view": []
+              },
+              {
+                "condition": [],
+                "dataset": [],
+                "domain": "",
+                "group_by_email": "",
+                "iam_member": "",
+                "role": "WRITER",
+                "routine": [],
+                "special_group": "projectWriters",
+                "user_by_email": "",
+                "view": []
+              }
+            ],
+            "creation_time": 1783953015235,
+            "dataset_id": "finops",
+            "default_collation": "",
+            "default_encryption_configuration": [],
+            "default_partition_expiration_ms": 0,
+            "default_table_expiration_ms": 0,
+            "delete_contents_on_destroy": false,
+            "description": "FinOps agent: detected anomalies + eval results",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "etag": "kKLus7rp/rKVaO3An/qcYw==",
+            "external_catalog_dataset_options": [],
+            "external_dataset_reference": [],
+            "friendly_name": "",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/datasets/finops",
+            "is_case_insensitive": false,
+            "labels": {},
+            "last_modified_time": 1783953015235,
+            "location": "us-central1",
+            "max_time_travel_hours": "168",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "resource_tags": {},
+            "self_link": "https://bigquery.googleapis.com/bigquery/v2/projects/project-972b17a4-c001-4b85-b4b/datasets/finops",
+            "storage_billing_model": "",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bigquery",
+      "mode": "managed",
+      "type": "google_bigquery_table",
+      "name": "anomalies",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "biglake_configuration": [],
+            "clustering": null,
+            "creation_time": 1783953017217,
+            "dataset_id": "finops",
+            "deletion_protection": false,
+            "description": "",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "encryption_configuration": [],
+            "etag": "ARUP6keuYS0vjouoXIaIiw==",
+            "expiration_time": 0,
+            "external_catalog_table_options": [],
+            "external_data_configuration": [],
+            "friendly_name": "",
+            "generated_schema_columns": "",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/datasets/finops/tables/anomalies",
+            "ignore_auto_generated_schema": false,
+            "ignore_schema_changes": null,
+            "labels": {},
+            "last_modified_time": 1783953017358,
+            "location": "us-central1",
+            "materialized_view": [],
+            "max_staleness": "",
+            "num_bytes": 0,
+            "num_long_term_bytes": 0,
+            "num_rows": 0,
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "range_partitioning": [],
+            "require_partition_filter": false,
+            "resource_tags": {},
+            "schema": "[{\"defaultValueExpression\":\"CURRENT_TIMESTAMP()\",\"mode\":\"NULLABLE\",\"name\":\"detected_at\",\"type\":\"TIMESTAMP\"},{\"mode\":\"NULLABLE\",\"name\":\"project_id\",\"type\":\"STRING\"},{\"mode\":\"NULLABLE\",\"name\":\"service\",\"type\":\"STRING\"},{\"mode\":\"NULLABLE\",\"name\":\"resource_name\",\"type\":\"STRING\"},{\"mode\":\"NULLABLE\",\"name\":\"baseline_cost\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"current_cost\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"spike_pct\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"status\",\"type\":\"STRING\"}]",
+            "schema_foreign_type_info": [],
+            "self_link": "https://bigquery.googleapis.com/bigquery/v2/projects/project-972b17a4-c001-4b85-b4b/datasets/finops/tables/anomalies",
+            "table_constraints": [],
+            "table_id": "anomalies",
+            "table_metadata_view": null,
+            "table_replication_info": [],
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "time_partitioning": [
+              {
+                "expiration_ms": 0,
+                "field": "detected_at",
+                "require_partition_filter": false,
+                "type": "DAY"
+              }
+            ],
+            "type": "TABLE",
+            "view": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.bigquery.google_bigquery_dataset.finops"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.bigquery",
+      "mode": "managed",
+      "type": "google_bigquery_table",
+      "name": "eval_results",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "biglake_configuration": [],
+            "clustering": null,
+            "creation_time": 1783953016681,
+            "dataset_id": "finops",
+            "deletion_protection": false,
+            "description": "",
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "encryption_configuration": [],
+            "etag": "0CtAZdvLLjlGGr730Yt+uw==",
+            "expiration_time": 0,
+            "external_catalog_table_options": [],
+            "external_data_configuration": [],
+            "friendly_name": "",
+            "generated_schema_columns": "",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/datasets/finops/tables/eval_results",
+            "ignore_auto_generated_schema": false,
+            "ignore_schema_changes": null,
+            "labels": {},
+            "last_modified_time": 1783953016760,
+            "location": "us-central1",
+            "materialized_view": [],
+            "max_staleness": "",
+            "num_bytes": 0,
+            "num_long_term_bytes": 0,
+            "num_rows": 0,
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "range_partitioning": [],
+            "require_partition_filter": false,
+            "resource_tags": {},
+            "schema": "[{\"mode\":\"REQUIRED\",\"name\":\"run_at\",\"type\":\"TIMESTAMP\"},{\"mode\":\"NULLABLE\",\"name\":\"git_sha\",\"type\":\"STRING\"},{\"mode\":\"NULLABLE\",\"name\":\"faithfulness\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"answer_relevancy\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"context_recall\",\"type\":\"FLOAT\"},{\"mode\":\"NULLABLE\",\"name\":\"passed\",\"type\":\"BOOLEAN\"},{\"mode\":\"NULLABLE\",\"name\":\"n_questions\",\"type\":\"INTEGER\"}]",
+            "schema_foreign_type_info": [],
+            "self_link": "https://bigquery.googleapis.com/bigquery/v2/projects/project-972b17a4-c001-4b85-b4b/datasets/finops/tables/eval_results",
+            "table_constraints": [],
+            "table_id": "eval_results",
+            "table_metadata_view": null,
+            "table_replication_info": [],
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "time_partitioning": [],
+            "type": "TABLE",
+            "view": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.bigquery.google_bigquery_dataset.finops"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_functions",
+      "mode": "data",
+      "type": "archive_file",
+      "name": "agent_source",
+      "provider": "provider[\"registry.terraform.io/hashicorp/archive\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "exclude_symlink_directories": null,
+            "excludes": [
+              ".git",
+              ".github",
+              "README.md",
+              "docker-compose.yml",
+              "evals",
+              "frontend",
+              "infra",
+              "rag/Dockerfile"
+            ],
+            "id": "31aaeea8d6ece4ec81eafe9440e0c879110c3482",
+            "output_base64sha256": "HqLj11SuMPXDXYCgz6IQuJvaw+B1zgEy+e9afldMqoA=",
+            "output_base64sha512": "Id1tiRCpuILf2UAx5Be7//Ez4n0MmifuIQXniwdKYKfYK5MPe/ci4dUGSWjmzcx2QSxWkJ5IdQvSQoFubTZbSw==",
+            "output_file_mode": null,
+            "output_md5": "aecd3892f7a66e9983db4f5fdc512874",
+            "output_path": "modules/cloud_functions/agent-source.zip",
+            "output_sha": "31aaeea8d6ece4ec81eafe9440e0c879110c3482",
+            "output_sha256": "1ea2e3d754ae30f5c35d80a0cfa210b89bdac3e075ce0132f9ef5a7e574caa80",
+            "output_sha512": "21dd6d8910a9b882dfd94031e417bbfff133e27d0c9a27ee2105e78b074a60a7d82b930f7bf722e1d5064968e6cdcc76412c56909e48750bd242816e6d365b4b",
+            "output_size": 95489,
+            "source": [],
+            "source_content": null,
+            "source_content_filename": null,
+            "source_dir": "modules/cloud_functions/../../..",
+            "source_file": null,
+            "type": "zip"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_functions",
+      "mode": "managed",
+      "type": "google_storage_bucket_object",
+      "name": "agent_source",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "bucket": "project-972b17a4-c001-4b85-b4b-finops-fn-src",
+            "cache_control": "",
+            "content": null,
+            "content_disposition": "",
+            "content_encoding": "",
+            "content_language": "",
+            "content_type": "application/zip",
+            "crc32c": "jwXBOg==",
+            "customer_encryption": [],
+            "deletion_policy": null,
+            "detect_md5hash": "rs04kvembpmD209f3FEodA==",
+            "event_based_hold": false,
+            "force_empty_content_type": null,
+            "generation": 1783953017465147,
+            "id": "project-972b17a4-c001-4b85-b4b-finops-fn-src-agent-source-aecd3892f7a66e9983db4f5fdc512874.zip",
+            "kms_key_name": "",
+            "md5hash": "rs04kvembpmD209f3FEodA==",
+            "md5hexhash": "aecd3892f7a66e9983db4f5fdc512874",
+            "media_link": "https://storage.googleapis.com/download/storage/v1/b/project-972b17a4-c001-4b85-b4b-finops-fn-src/o/agent-source-aecd3892f7a66e9983db4f5fdc512874.zip?generation=1783953017465147\u0026alt=media",
+            "metadata": {},
+            "name": "agent-source-aecd3892f7a66e9983db4f5fdc512874.zip",
+            "output_name": "agent-source-aecd3892f7a66e9983db4f5fdc512874.zip",
+            "retention": [],
+            "self_link": "https://www.googleapis.com/storage/v1/b/project-972b17a4-c001-4b85-b4b-finops-fn-src/o/agent-source-aecd3892f7a66e9983db4f5fdc512874.zip",
+            "source": "modules/cloud_functions/agent-source.zip",
+            "source_md5hash": "",
+            "storage_class": "STANDARD",
+            "temporary_hold": false,
+            "timeouts": null
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "content"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoyNDAwMDAwMDAwMDAsImRlbGV0ZSI6MjQwMDAwMDAwMDAwLCJ1cGRhdGUiOjI0MDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_functions.data.archive_file.agent_source",
+            "module.storage.google_storage_bucket.functions_source"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_cloud_run_v2_service",
+      "name": "api",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "status": "tainted",
+          "schema_version": 0,
+          "attributes": {
+            "annotations": {},
+            "binary_authorization": [],
+            "build_config": [],
+            "client": "",
+            "client_version": "",
+            "conditions": [
+              {
+                "execution_reason": "",
+                "last_transition_time": "2026-07-13T14:42:04.301464Z",
+                "message": "Image 'us-central1-docker.pkg.dev/project-972b17a4-c001-4b85-b4b/finops/finops-api:v1' not found.",
+                "reason": "REVISION_FAILED",
+                "revision_reason": "",
+                "severity": "",
+                "state": "CONDITION_FAILED",
+                "type": "RoutesReady"
+              },
+              {
+                "execution_reason": "",
+                "last_transition_time": "2026-07-13T14:42:01.888496Z",
+                "message": "Image 'us-central1-docker.pkg.dev/project-972b17a4-c001-4b85-b4b/finops/finops-api:v1' not found.",
+                "reason": "",
+                "revision_reason": "",
+                "severity": "",
+                "state": "CONDITION_FAILED",
+                "type": "ConfigurationsReady"
+              }
+            ],
+            "create_time": "2026-07-13T14:42:01.442945Z",
+            "creator": "rawalsandhan2909@gmail.com",
+            "custom_audiences": [],
+            "delete_time": "",
+            "deletion_protection": true,
+            "description": "",
+            "effective_annotations": {},
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "etag": "\"CLny09IGEOibm9MB/cHJvamVjdHMvcHJvamVjdC05NzJiMTdhNC1jMDAxLTRiODUtYjRiL2xvY2F0aW9ucy91cy1jZW50cmFsMS9zZXJ2aWNlcy9maW5vcHMtYXBp\"",
+            "expire_time": "",
+            "generation": "1",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/locations/us-central1/services/finops-api",
+            "ingress": "INGRESS_TRAFFIC_ALL",
+            "invoker_iam_disabled": false,
+            "labels": {},
+            "last_modifier": "rawalsandhan2909@gmail.com",
+            "latest_created_revision": "projects/project-972b17a4-c001-4b85-b4b/locations/us-central1/services/finops-api/revisions/finops-api-00001-c9d",
+            "latest_ready_revision": "",
+            "launch_stage": "GA",
+            "location": "us-central1",
+            "name": "finops-api",
+            "observed_generation": "1",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "reconciling": false,
+            "scaling": [
+              {
+                "manual_instance_count": 0,
+                "min_instance_count": 0,
+                "scaling_mode": ""
+              }
+            ],
+            "template": [
+              {
+                "annotations": {},
+                "containers": [
+                  {
+                    "args": [],
+                    "base_image_uri": "",
+                    "build_info": [],
+                    "command": [],
+                    "depends_on": [],
+                    "env": [
+                      {
+                        "name": "DB_PASSWORD",
+                        "value": "",
+                        "value_source": [
+                          {
+                            "secret_key_ref": [
+                              {
+                                "secret": "finops-db-password",
+                                "version": "latest"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "name": "DB_UNIX_SOCKET",
+                        "value": "/cloudsql/project-972b17a4-c001-4b85-b4b:us-central1:finops-pgvector",
+                        "value_source": []
+                      },
+                      {
+                        "name": "GCP_PROJECT",
+                        "value": "project-972b17a4-c001-4b85-b4b",
+                        "value_source": []
+                      },
+                      {
+                        "name": "GCS_BUCKET",
+                        "value": "project-972b17a4-c001-4b85-b4b-finops-docs",
+                        "value_source": []
+                      },
+                      {
+                        "name": "OPENAI_API_KEY",
+                        "value": "",
+                        "value_source": [
+                          {
+                            "secret_key_ref": [
+                              {
+                                "secret": "openai-api-key",
+                                "version": "latest"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ],
+                    "image": "us-central1-docker.pkg.dev/project-972b17a4-c001-4b85-b4b/finops/finops-api:v1",
+                    "liveness_probe": [],
+                    "name": "",
+                    "ports": [
+                      {
+                        "container_port": 8080,
+                        "name": "http1"
+                      }
+                    ],
+                    "resources": [
+                      {
+                        "cpu_idle": false,
+                        "limits": {
+                          "cpu": "1",
+                          "memory": "1Gi"
+                        },
+                        "startup_cpu_boost": false
+                      }
+                    ],
+                    "startup_probe": [
+                      {
+                        "failure_threshold": 6,
+                        "grpc": [],
+                        "http_get": [
+                          {
+                            "http_headers": [],
+                            "path": "/health",
+                            "port": 8080
+                          }
+                        ],
+                        "initial_delay_seconds": 10,
+                        "period_seconds": 10,
+                        "tcp_socket": [],
+                        "timeout_seconds": 1
+                      }
+                    ],
+                    "volume_mounts": [
+                      {
+                        "mount_path": "/cloudsql",
+                        "name": "cloudsql"
+                      }
+                    ],
+                    "working_dir": ""
+                  }
+                ],
+                "encryption_key": "",
+                "execution_environment": "",
+                "gpu_zonal_redundancy_disabled": false,
+                "labels": {},
+                "max_instance_request_concurrency": 80,
+                "node_selector": [],
+                "revision": "",
+                "scaling": [
+                  {
+                    "max_instance_count": 4,
+                    "min_instance_count": 0
+                  }
+                ],
+                "service_account": "finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+                "session_affinity": false,
+                "timeout": "300s",
+                "volumes": [
+                  {
+                    "cloud_sql_instance": [
+                      {
+                        "instances": [
+                          "project-972b17a4-c001-4b85-b4b:us-central1:finops-pgvector"
+                        ]
+                      }
+                    ],
+                    "empty_dir": [],
+                    "gcs": [],
+                    "name": "cloudsql",
+                    "nfs": [],
+                    "secret": []
+                  }
+                ],
+                "vpc_access": []
+              }
+            ],
+            "terminal_condition": [
+              {
+                "execution_reason": "",
+                "last_transition_time": "2026-07-13T14:42:04.301464Z",
+                "message": "Image 'us-central1-docker.pkg.dev/project-972b17a4-c001-4b85-b4b/finops/finops-api:v1' not found.",
+                "reason": "REVISION_FAILED",
+                "revision_reason": "",
+                "severity": "",
+                "state": "CONDITION_FAILED",
+                "type": "Ready"
+              }
+            ],
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "traffic": [
+              {
+                "percent": 100,
+                "revision": "",
+                "tag": "",
+                "type": "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+              }
+            ],
+            "traffic_statuses": [],
+            "uid": "971ad693-5a7c-4c04-9200-da196e291715",
+            "update_time": "2026-07-13T14:42:01.442945Z",
+            "uri": "",
+            "urls": [
+              "https://finops-api-845275721742.us-central1.run.app"
+            ]
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_run.google_secret_manager_secret.db_password",
+            "module.cloud_run.google_secret_manager_secret.openai",
+            "module.cloud_run.google_secret_manager_secret_version.db_password",
+            "module.cloud_run.google_secret_manager_secret_version.openai",
+            "module.cloud_sql.google_sql_database_instance.pgvector",
+            "module.iam.google_service_account.api",
+            "module.storage.google_storage_bucket.docs"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret",
+      "name": "db_password",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "annotations": {},
+            "create_time": "2026-07-13T14:30:14.882033Z",
+            "deletion_protection": false,
+            "effective_annotations": {},
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "expire_time": "",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/secrets/finops-db-password",
+            "labels": {},
+            "name": "projects/845275721742/secrets/finops-db-password",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "replication": [
+              {
+                "auto": [
+                  {
+                    "customer_managed_encryption": []
+                  }
+                ],
+                "user_managed": []
+              }
+            ],
+            "rotation": [],
+            "secret_id": "finops-db-password",
+            "tags": null,
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "topics": [],
+            "ttl": null,
+            "version_aliases": {},
+            "version_destroy_ttl": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret",
+      "name": "openai",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "annotations": {},
+            "create_time": "2026-07-13T14:30:14.892694Z",
+            "deletion_protection": false,
+            "effective_annotations": {},
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "expire_time": "",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/secrets/openai-api-key",
+            "labels": {},
+            "name": "projects/845275721742/secrets/openai-api-key",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "replication": [
+              {
+                "auto": [
+                  {
+                    "customer_managed_encryption": []
+                  }
+                ],
+                "user_managed": []
+              }
+            ],
+            "rotation": [],
+            "secret_id": "openai-api-key",
+            "tags": null,
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null,
+            "topics": [],
+            "ttl": null,
+            "version_aliases": {},
+            "version_destroy_ttl": ""
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret_iam_member",
+      "name": "api_db",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu9vx8A=",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/secrets/finops-db-password/roles/secretmanager.secretAccessor/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/secretmanager.secretAccessor",
+            "secret_id": "projects/project-972b17a4-c001-4b85-b4b/secrets/finops-db-password"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_run.google_secret_manager_secret.db_password",
+            "module.iam.google_service_account.api"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret_iam_member",
+      "name": "api_openai",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu9wVdE=",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/secrets/openai-api-key/roles/secretmanager.secretAccessor/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/secretmanager.secretAccessor",
+            "secret_id": "projects/project-972b17a4-c001-4b85-b4b/secrets/openai-api-key"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_run.google_secret_manager_secret.openai",
+            "module.iam.google_service_account.api"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret_version",
+      "name": "db_password",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "create_time": "2026-07-13T14:30:16.630577Z",
+            "deletion_policy": "DELETE",
+            "destroy_time": "",
+            "enabled": true,
+            "id": "projects/845275721742/secrets/finops-db-password/versions/1",
+            "is_secret_data_base64": false,
+            "name": "projects/845275721742/secrets/finops-db-password/versions/1",
+            "secret": "projects/project-972b17a4-c001-4b85-b4b/secrets/finops-db-password",
+            "secret_data": "NiXpLPzqnnTR5Vnr6SpTBZTULl7b",
+            "secret_data_wo": null,
+            "secret_data_wo_version": 0,
+            "timeouts": null,
+            "version": "1"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_data"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_run.google_secret_manager_secret.db_password"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_run",
+      "mode": "managed",
+      "type": "google_secret_manager_secret_version",
+      "name": "openai",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "create_time": "2026-07-13T14:30:16.670551Z",
+            "deletion_policy": "DELETE",
+            "destroy_time": "",
+            "enabled": true,
+            "id": "projects/845275721742/secrets/openai-api-key/versions/1",
+            "is_secret_data_base64": false,
+            "name": "projects/845275721742/secrets/openai-api-key/versions/1",
+            "secret": "projects/project-972b17a4-c001-4b85-b4b/secrets/openai-api-key",
+            "secret_data": "REPLACE_ME",
+            "secret_data_wo": null,
+            "secret_data_wo_version": 0,
+            "timeouts": null,
+            "version": "1"
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "secret_data"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_run.google_secret_manager_secret.openai"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_sql",
+      "mode": "managed",
+      "type": "google_sql_database",
+      "name": "rag",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "charset": "UTF8",
+            "collation": "en_US.UTF8",
+            "deletion_policy": "DELETE",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/instances/finops-pgvector/databases/finops_rag",
+            "instance": "finops-pgvector",
+            "name": "finops_rag",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/project-972b17a4-c001-4b85-b4b/instances/finops-pgvector/databases/finops_rag",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_sql.google_sql_database_instance.pgvector"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_sql",
+      "mode": "managed",
+      "type": "google_sql_database_instance",
+      "name": "pgvector",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "available_maintenance_versions": [],
+            "clone": [],
+            "connection_name": "project-972b17a4-c001-4b85-b4b:us-central1:finops-pgvector",
+            "database_version": "POSTGRES_16",
+            "deletion_protection": false,
+            "dns_name": "",
+            "dns_names": [],
+            "encryption_key_name": null,
+            "first_ip_address": "34.72.115.52",
+            "id": "finops-pgvector",
+            "instance_type": "CLOUD_SQL_INSTANCE",
+            "ip_address": [
+              {
+                "ip_address": "34.72.115.52",
+                "time_to_retire": "",
+                "type": "PRIMARY"
+              },
+              {
+                "ip_address": "34.58.156.95",
+                "time_to_retire": "",
+                "type": "OUTGOING"
+              }
+            ],
+            "maintenance_version": "POSTGRES_16_14.R20260319.07_22",
+            "master_instance_name": "",
+            "name": "finops-pgvector",
+            "node_count": 0,
+            "private_ip_address": "",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "psc_service_attachment_link": "",
+            "public_ip_address": "34.72.115.52",
+            "region": "us-central1",
+            "replica_configuration": [],
+            "replica_names": [],
+            "replication_cluster": [
+              {
+                "dr_replica": false,
+                "failover_dr_replica_name": "",
+                "psa_write_endpoint": ""
+              }
+            ],
+            "restore_backup_context": [],
+            "root_password": null,
+            "self_link": "https://sqladmin.googleapis.com/sql/v1beta4/projects/project-972b17a4-c001-4b85-b4b/instances/finops-pgvector",
+            "server_ca_cert": [
+              {
+                "cert": "-----BEGIN CERTIFICATE-----\nMIIDcTCCAlmgAwIBAgIBADANBgkqhkiG9w0BAQsFADBwMS0wKwYDVQQuEyQ5Mjcz\nNzhmZS1hZjQ3LTQ3NTAtYjgyOS0xZjlkMjkwNjFlN2IxHDAaBgNVBAMTE0Nsb3Vk\nIFNRTCBTZXJ2ZXIgQ0ExFDASBgNVBAoTC0dvb2dsZSwgSW5jMQswCQYDVQQGEwJV\nUzAeFw0yNjA3MTMxNDM4NTFaFw0zNjA3MTAxNDM5NTFaMHAxLTArBgNVBC4TJDky\nNzM3OGZlLWFmNDctNDc1MC1iODI5LTFmOWQyOTA2MWU3YjEcMBoGA1UEAxMTQ2xv\ndWQgU1FMIFNlcnZlciBDQTEUMBIGA1UEChMLR29vZ2xlLCBJbmMxCzAJBgNVBAYT\nAlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsKouJieTioIH+u9w\n09rU8GfztRCFtF0M6EC0nfIDV18fRNZPA3W8wtmbYjvWtXzwpBk1aIWfwslj55Rd\nYcE8Aep2zm6IqxHDJoQ8Z194iQPX0woXYhurudpaTkNc7lZovGXnJD/63UoDX5wp\nRrp2sRUB640HwOkrycRfdSMerlVqpbWtHMJQ65IV63QPVau6buCJbdP/suhxe3vm\nFZ/4RL1rE+FwnucTcr3ExbHG/oER9ko+iec/aeKDzIB9Aghv68UOazocfNRGSAjY\nlJJlOswY4f83miokTS2dvemO3DDmtESx4T11oxCxOzN58N187ICKL2yw98Yke4A0\n7bLpEwIDAQABoxYwFDASBgNVHRMBAf8ECDAGAQH/AgEAMA0GCSqGSIb3DQEBCwUA\nA4IBAQBcQXaethyKYTqV0VUrh65U+ssiq64l0mHNDr35Dws8Mvypde5tXKbO/lG2\nMYlMWUEiSq4Yy1yqeLdRHdGDgVxMvKSoCsfQ1uD8b7/YZJ9aBnqUCDTLwhEiUWSK\nZQLTlsN7CpBjYSr6CjBlAI6BhODJ7JJO06T33yPJQXUVv3AJEqkyHLwoOPC65bpU\nWwawhydqeOl2aA8rbMNTeev1CBq8tPTrtj4899r9p7dmsxZEGC3cz4GpYmLuKfsJ\nfEDQ1y0cNeE8teMl8uFIyVoMos8YQPSXyrw/FKRcEcrTgpyf00LqYVgUORFVqID/\nktqQ6a75zH0fu3P3HsvI6PSiwNNL\n-----END CERTIFICATE-----",
+                "common_name": "C=US,O=Google\\, Inc,CN=Cloud SQL Server CA,dnQualifier=927378fe-af47-4750-b829-1f9d29061e7b",
+                "create_time": "2026-07-13T14:38:51.535Z",
+                "expiration_time": "2036-07-10T14:39:51.535Z",
+                "sha1_fingerprint": "45bc2e88bd34d5f65810695db5d278327e88c87e"
+              }
+            ],
+            "service_account_email_address": "p845275721742-vncxp9@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+            "settings": [
+              {
+                "activation_policy": "ALWAYS",
+                "active_directory_config": [],
+                "advanced_machine_features": [],
+                "availability_type": "ZONAL",
+                "backup_configuration": [
+                  {
+                    "backup_retention_settings": [
+                      {
+                        "retained_backups": 7,
+                        "retention_unit": "COUNT"
+                      }
+                    ],
+                    "binary_log_enabled": false,
+                    "enabled": true,
+                    "location": "",
+                    "point_in_time_recovery_enabled": false,
+                    "start_time": "11:00",
+                    "transaction_log_retention_days": 7
+                  }
+                ],
+                "collation": "",
+                "connection_pool_config": [],
+                "connector_enforcement": "NOT_REQUIRED",
+                "data_cache_config": [
+                  {
+                    "data_cache_enabled": false
+                  }
+                ],
+                "database_flags": [],
+                "deletion_protection_enabled": false,
+                "deny_maintenance_period": [],
+                "disk_autoresize": true,
+                "disk_autoresize_limit": 0,
+                "disk_size": 10,
+                "disk_type": "PD_SSD",
+                "edition": "ENTERPRISE",
+                "effective_availability_type": "ZONAL",
+                "enable_dataplex_integration": false,
+                "enable_google_ml_integration": false,
+                "insights_config": [],
+                "ip_configuration": [
+                  {
+                    "allocated_ip_range": "",
+                    "authorized_networks": [],
+                    "custom_subject_alternative_names": [],
+                    "enable_private_path_for_google_cloud_services": false,
+                    "ipv4_enabled": true,
+                    "private_network": "",
+                    "psc_config": [],
+                    "server_ca_mode": "GOOGLE_MANAGED_INTERNAL_CA",
+                    "server_ca_pool": "",
+                    "ssl_mode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED"
+                  }
+                ],
+                "location_preference": [
+                  {
+                    "follow_gae_application": "",
+                    "secondary_zone": "",
+                    "zone": "us-central1-c"
+                  }
+                ],
+                "maintenance_window": [],
+                "password_validation_policy": [],
+                "pricing_plan": "PER_USE",
+                "retain_backups_on_delete": false,
+                "sql_server_audit_config": [],
+                "tier": "db-custom-1-3840",
+                "time_zone": "",
+                "user_labels": {},
+                "version": 1
+              }
+            ],
+            "timeouts": null
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "root_password"
+              }
+            ],
+            [
+              {
+                "type": "get_attr",
+                "value": "server_ca_cert"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo1NDAwMDAwMDAwMDAwLCJkZWxldGUiOjU0MDAwMDAwMDAwMDAsInVwZGF0ZSI6NTQwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.cloud_sql",
+      "mode": "managed",
+      "type": "google_sql_user",
+      "name": "raguser",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 1,
+          "attributes": {
+            "deletion_policy": null,
+            "host": "",
+            "id": "raguser//finops-pgvector",
+            "instance": "finops-pgvector",
+            "name": "raguser",
+            "password": "NiXpLPzqnnTR5Vnr6SpTBZTULl7b",
+            "password_policy": [],
+            "password_wo": null,
+            "password_wo_version": null,
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "sql_server_user_details": [],
+            "timeouts": null,
+            "type": ""
+          },
+          "sensitive_attributes": [
+            [
+              {
+                "type": "get_attr",
+                "value": "password"
+              }
+            ]
+          ],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsImRlbGV0ZSI6NjAwMDAwMDAwMDAwLCJ1cGRhdGUiOjYwMDAwMDAwMDAwMH0sInNjaGVtYV92ZXJzaW9uIjoiMSJ9",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.cloud_sql.google_sql_database_instance.pgvector"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.firestore",
+      "mode": "managed",
+      "type": "google_firestore_database",
+      "name": "default",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "app_engine_integration_mode": "DISABLED",
+            "cmek_config": [],
+            "concurrency_mode": "PESSIMISTIC",
+            "create_time": "",
+            "database_edition": "STANDARD",
+            "delete_protection_state": "DELETE_PROTECTION_DISABLED",
+            "deletion_policy": "ABANDON",
+            "earliest_version_time": "2026-07-13T14:30:15.958131Z",
+            "etag": "IJCg1tr0z5UDMPq4kvPuz5UD",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/databases/(default)",
+            "key_prefix": "",
+            "location_id": "us-central1",
+            "name": "(default)",
+            "point_in_time_recovery_enablement": "POINT_IN_TIME_RECOVERY_DISABLED",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "tags": null,
+            "timeouts": null,
+            "type": "FIRESTORE_NATIVE",
+            "uid": "1be8ba9c-7eab-408e-8415-9eda10926b1d",
+            "update_time": "",
+            "version_retention_period": "3600s"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.firestore",
+      "mode": "managed",
+      "type": "google_firestore_index",
+      "name": "runs_by_time",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "api_scope": "ANY_API",
+            "collection": "agent_runs",
+            "database": "(default)",
+            "density": "SPARSE_ALL",
+            "fields": [
+              {
+                "array_config": "",
+                "field_path": "status",
+                "order": "ASCENDING",
+                "vector_config": []
+              },
+              {
+                "array_config": "",
+                "field_path": "started_at",
+                "order": "DESCENDING",
+                "vector_config": []
+              },
+              {
+                "array_config": "",
+                "field_path": "__name__",
+                "order": "DESCENDING",
+                "vector_config": []
+              }
+            ],
+            "id": "projects/project-972b17a4-c001-4b85-b4b/databases/(default)/collectionGroups/agent_runs/indexes/CICAgOjXh4EK",
+            "multikey": false,
+            "name": "projects/project-972b17a4-c001-4b85-b4b/databases/(default)/collectionGroups/agent_runs/indexes/CICAgOjXh4EK",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "query_scope": "COLLECTION",
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.firestore.google_firestore_database.default"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_iam_workload_identity_pool",
+      "name": "github",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "description": "",
+            "disabled": false,
+            "display_name": "GitHub Actions",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/locations/global/workloadIdentityPools/github-actions",
+            "name": "projects/845275721742/locations/global/workloadIdentityPools/github-actions",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "state": "ACTIVE",
+            "timeouts": null,
+            "workload_identity_pool_id": "github-actions"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_iam_workload_identity_pool_provider",
+      "name": "github",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "attribute_condition": "assertion.repository == \"Rawal-29/gcp-finops-agent\"",
+            "attribute_mapping": {
+              "attribute.repository": "assertion.repository",
+              "google.subject": "assertion.sub"
+            },
+            "aws": [],
+            "description": "",
+            "disabled": false,
+            "display_name": "GitHub OIDC",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/locations/global/workloadIdentityPools/github-actions/providers/github-oidc",
+            "name": "projects/845275721742/locations/global/workloadIdentityPools/github-actions/providers/github-oidc",
+            "oidc": [
+              {
+                "allowed_audiences": [],
+                "issuer_uri": "https://token.actions.githubusercontent.com",
+                "jwks_json": ""
+              }
+            ],
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "saml": [],
+            "state": "ACTIVE",
+            "timeouts": null,
+            "workload_identity_pool_id": "github-actions",
+            "workload_identity_pool_provider_id": "github-oidc",
+            "x509": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_iam_workload_identity_pool.github"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "agent_roles",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "roles/bigquery.dataEditor",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.dataEditor/serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.dataEditor"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.agent"
+          ]
+        },
+        {
+          "index_key": "roles/bigquery.jobUser",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.jobUser/serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.jobUser"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.agent"
+          ]
+        },
+        {
+          "index_key": "roles/cloudasset.viewer",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/cloudasset.viewer/serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/cloudasset.viewer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.agent"
+          ]
+        },
+        {
+          "index_key": "roles/datastore.user",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/datastore.user/serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/datastore.user"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.agent"
+          ]
+        },
+        {
+          "index_key": "roles/monitoring.viewer",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/monitoring.viewer/serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/monitoring.viewer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.agent"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "api_roles",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "roles/bigquery.dataViewer",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.dataViewer/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.dataViewer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.api"
+          ]
+        },
+        {
+          "index_key": "roles/bigquery.jobUser",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.jobUser/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.jobUser"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.api"
+          ]
+        },
+        {
+          "index_key": "roles/cloudsql.client",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/cloudsql.client/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/cloudsql.client"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.api"
+          ]
+        },
+        {
+          "index_key": "roles/datastore.viewer",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/datastore.viewer/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/datastore.viewer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.api"
+          ]
+        },
+        {
+          "index_key": "roles/storage.objectViewer",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/storage.objectViewer/serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/storage.objectViewer"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.api"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_project_iam_member",
+      "name": "ci_roles",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": "roles/bigquery.dataEditor",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.dataEditor/serviceAccount:finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.dataEditor"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.ci"
+          ]
+        },
+        {
+          "index_key": "roles/bigquery.jobUser",
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu+j3Tk=",
+            "id": "project-972b17a4-c001-4b85-b4b/roles/bigquery.jobUser/serviceAccount:finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "role": "roles/bigquery.jobUser"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_service_account.ci"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "agent",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "finops-agent",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "FinOps LangGraph Agent (Cloud Function)",
+            "email": "finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "name": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-agent@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "timeouts": null,
+            "unique_id": "107319143142557981590"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "api",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "finops-api",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "FinOps API (Cloud Run)",
+            "email": "finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "name": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-api@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "timeouts": null,
+            "unique_id": "109880360772368782722"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "ci",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "finops-ci",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "FinOps CI (GitHub Actions eval logger)",
+            "email": "finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "name": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "timeouts": null,
+            "unique_id": "108268645349325427620"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_service_account",
+      "name": "frontend",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "account_id": "finops-dashboard",
+            "create_ignore_already_exists": null,
+            "description": "",
+            "disabled": false,
+            "display_name": "FinOps Dashboard (Cloud Run)",
+            "email": "finops-dashboard@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-dashboard@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "member": "serviceAccount:finops-dashboard@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "name": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-dashboard@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "timeouts": null,
+            "unique_id": "107325481713339175999"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjozMDAwMDAwMDAwMDB9fQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.iam",
+      "mode": "managed",
+      "type": "google_service_account_iam_member",
+      "name": "ci_wif",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "index_key": 0,
+          "schema_version": 0,
+          "attributes": {
+            "condition": [],
+            "etag": "BwZWfu6MotY=",
+            "id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com/roles/iam.workloadIdentityUser/principalSet://iam.googleapis.com/projects/845275721742/locations/global/workloadIdentityPools/github-actions/attribute.repository/Rawal-29/gcp-finops-agent",
+            "member": "principalSet://iam.googleapis.com/projects/845275721742/locations/global/workloadIdentityPools/github-actions/attribute.repository/Rawal-29/gcp-finops-agent",
+            "role": "roles/iam.workloadIdentityUser",
+            "service_account_id": "projects/project-972b17a4-c001-4b85-b4b/serviceAccounts/finops-ci@project-972b17a4-c001-4b85-b4b.iam.gserviceaccount.com"
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "bnVsbA==",
+          "dependencies": [
+            "google_project_service.apis",
+            "module.iam.google_iam_workload_identity_pool.github",
+            "module.iam.google_service_account.ci"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.pubsub",
+      "mode": "managed",
+      "type": "google_pubsub_topic",
+      "name": "billing_alerts",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "id": "projects/project-972b17a4-c001-4b85-b4b/topics/billing-alerts",
+            "ingestion_data_source_settings": [],
+            "kms_key_name": "",
+            "labels": {},
+            "message_retention_duration": "86600s",
+            "message_storage_policy": [],
+            "message_transforms": [],
+            "name": "billing-alerts",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "schema_settings": [],
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.pubsub",
+      "mode": "managed",
+      "type": "google_pubsub_topic",
+      "name": "billing_alerts_dlq",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 0,
+          "attributes": {
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "id": "projects/project-972b17a4-c001-4b85-b4b/topics/billing-alerts-dlq",
+            "ingestion_data_source_settings": [],
+            "kms_key_name": "",
+            "labels": {},
+            "message_retention_duration": "",
+            "message_storage_policy": [],
+            "message_transforms": [],
+            "name": "billing-alerts-dlq",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "schema_settings": [],
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "timeouts": null
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjoxMjAwMDAwMDAwMDAwLCJkZWxldGUiOjEyMDAwMDAwMDAwMDAsInVwZGF0ZSI6MTIwMDAwMDAwMDAwMH19",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "google_storage_bucket",
+      "name": "docs",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 3,
+          "attributes": {
+            "autoclass": [],
+            "cors": [],
+            "custom_placement_config": [],
+            "default_event_based_hold": false,
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_object_retention": false,
+            "encryption": [],
+            "force_destroy": true,
+            "hierarchical_namespace": [
+              {
+                "enabled": false
+              }
+            ],
+            "id": "project-972b17a4-c001-4b85-b4b-finops-docs",
+            "ip_filter": [],
+            "labels": {},
+            "lifecycle_rule": [
+              {
+                "action": [
+                  {
+                    "storage_class": "",
+                    "type": "Delete"
+                  }
+                ],
+                "condition": [
+                  {
+                    "age": 0,
+                    "created_before": "",
+                    "custom_time_before": "",
+                    "days_since_custom_time": 0,
+                    "days_since_noncurrent_time": 0,
+                    "matches_prefix": [],
+                    "matches_storage_class": [],
+                    "matches_suffix": [],
+                    "noncurrent_time_before": "",
+                    "num_newer_versions": 3,
+                    "send_age_if_zero": false,
+                    "send_days_since_custom_time_if_zero": false,
+                    "send_days_since_noncurrent_time_if_zero": false,
+                    "send_num_newer_versions_if_zero": false,
+                    "with_state": "ANY"
+                  }
+                ]
+              }
+            ],
+            "location": "US-CENTRAL1",
+            "logging": [],
+            "name": "project-972b17a4-c001-4b85-b4b-finops-docs",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "project_number": 845275721742,
+            "public_access_prevention": "inherited",
+            "requester_pays": false,
+            "retention_policy": [],
+            "rpo": null,
+            "self_link": "https://www.googleapis.com/storage/v1/b/project-972b17a4-c001-4b85-b4b-finops-docs",
+            "soft_delete_policy": [
+              {
+                "effective_time": "2026-07-13T14:30:15.969Z",
+                "retention_duration_seconds": 604800
+              }
+            ],
+            "storage_class": "STANDARD",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "time_created": "2026-07-13T14:30:15.969Z",
+            "timeouts": null,
+            "uniform_bucket_level_access": true,
+            "updated": "2026-07-13T14:30:15.969Z",
+            "url": "gs://project-972b17a4-c001-4b85-b4b-finops-docs",
+            "versioning": [
+              {
+                "enabled": true
+              }
+            ],
+            "website": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMCwidXBkYXRlIjoyNDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjMifQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    },
+    {
+      "module": "module.storage",
+      "mode": "managed",
+      "type": "google_storage_bucket",
+      "name": "functions_source",
+      "provider": "provider[\"registry.terraform.io/hashicorp/google\"]",
+      "instances": [
+        {
+          "schema_version": 3,
+          "attributes": {
+            "autoclass": [],
+            "cors": [],
+            "custom_placement_config": [],
+            "default_event_based_hold": false,
+            "effective_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "enable_object_retention": false,
+            "encryption": [],
+            "force_destroy": true,
+            "hierarchical_namespace": [
+              {
+                "enabled": false
+              }
+            ],
+            "id": "project-972b17a4-c001-4b85-b4b-finops-fn-src",
+            "ip_filter": [],
+            "labels": {},
+            "lifecycle_rule": [],
+            "location": "US-CENTRAL1",
+            "logging": [],
+            "name": "project-972b17a4-c001-4b85-b4b-finops-fn-src",
+            "project": "project-972b17a4-c001-4b85-b4b",
+            "project_number": 845275721742,
+            "public_access_prevention": "inherited",
+            "requester_pays": false,
+            "retention_policy": [],
+            "rpo": null,
+            "self_link": "https://www.googleapis.com/storage/v1/b/project-972b17a4-c001-4b85-b4b-finops-fn-src",
+            "soft_delete_policy": [
+              {
+                "effective_time": "2026-07-13T14:30:15.292Z",
+                "retention_duration_seconds": 604800
+              }
+            ],
+            "storage_class": "STANDARD",
+            "terraform_labels": {
+              "goog-terraform-provisioned": "true"
+            },
+            "time_created": "2026-07-13T14:30:15.292Z",
+            "timeouts": null,
+            "uniform_bucket_level_access": true,
+            "updated": "2026-07-13T14:30:15.292Z",
+            "url": "gs://project-972b17a4-c001-4b85-b4b-finops-fn-src",
+            "versioning": [],
+            "website": []
+          },
+          "sensitive_attributes": [],
+          "identity_schema_version": 0,
+          "private": "eyJlMmJmYjczMC1lY2FhLTExZTYtOGY4OC0zNDM2M2JjN2M0YzAiOnsiY3JlYXRlIjo2MDAwMDAwMDAwMDAsInJlYWQiOjI0MDAwMDAwMDAwMCwidXBkYXRlIjoyNDAwMDAwMDAwMDB9LCJzY2hlbWFfdmVyc2lvbiI6IjMifQ==",
+          "dependencies": [
+            "google_project_service.apis"
+          ]
+        }
+      ]
+    }
+  ],
+  "check_results": null
+}

@@ -55,8 +55,9 @@ resource "google_secret_manager_secret_iam_member" "api_db" {
 
 # FastAPI service
 resource "google_cloud_run_v2_service" "api" {
-  name     = "finops-api"
-  location = var.region
+  name                = "finops-api"
+  location            = var.region
+  deletion_protection = false # demo project; set true in prod
   ingress  = "INGRESS_TRAFFIC_ALL" # tighten to INTERNAL + LB in prod
 
   template {
@@ -133,8 +134,9 @@ resource "google_cloud_run_v2_service" "api" {
 
 # Next.js dashboard
 resource "google_cloud_run_v2_service" "frontend" {
-  name     = "finops-dashboard"
-  location = var.region
+  name                = "finops-dashboard"
+  location            = var.region
+  deletion_protection = false # demo project; set true in prod
   ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {

@@ -66,8 +66,19 @@ class VectorStore:
             self._pool.putconn(conn)
 
     def init_schema(self) -> None:
-        with self._conn() as conn, conn.cursor() as cur:
-            cur.execute(_SCHEMA % {"dim": self._dim})
+        # Uses the pool directly: on a fresh database the vector type doesn't
+        # exist until _SCHEMA's CREATE EXTENSION runs, so the _conn() helper
+        # (which calls register_vector) would fail here.
+        conn = self._pool.getconn()
+        try:
+            with conn.cursor() as cur:
+                cur.execute(_SCHEMA % {"dim": self._dim})
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            self._pool.putconn(conn)
         log.info("schema ready (dim=%s)", self._dim)
 
     def upsert_chunks(
