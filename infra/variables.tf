@@ -45,3 +45,9 @@ variable "enable_gke" {
   default     = true
   description = "Provision GKE Autopilot cluster (adds cost)"
 }
+
+variable "github_repo" {
+  description = "GitHub repo (owner/name) allowed to authenticate via Workload Identity Federation for CI. Empty disables."
+  type        = string
+  default     = ""
+}

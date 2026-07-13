@@ -58,11 +58,15 @@ def main() -> int:
     ds = collect_responses()
 
     result = evaluate(ds, metrics=[faithfulness, answer_relevancy, context_recall])
-    scores = {
-        "faithfulness": float(result["faithfulness"]),
-        "answer_relevancy": float(result["answer_relevancy"]),
-        "context_recall": float(result["context_recall"]),
-    }
+
+    def aggregate(name: str) -> float:
+        v = result[name]
+        # ragas returns a per-sample list here (a bare float on older versions)
+        if isinstance(v, (list, tuple)):
+            return float(sum(v) / len(v))
+        return float(v)
+
+    scores = {m: aggregate(m) for m in DEFAULT_THRESHOLDS}
 
     thresholds = {m: getattr(args, f"threshold_{m}") for m in DEFAULT_THRESHOLDS}
     passed = all(scores[m] >= thresholds[m] for m in scores)

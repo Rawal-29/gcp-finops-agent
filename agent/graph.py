@@ -12,6 +12,7 @@ from __future__ import annotations
 import json
 import logging
 import os
+from functools import lru_cache
 
 from langgraph.graph import END, START, StateGraph
 from openai import OpenAI
@@ -28,8 +29,16 @@ CONFIDENCE_THRESHOLD = float(os.environ.get("CONFIDENCE_THRESHOLD", "0.7"))
 MAX_RETRIES = int(os.environ.get("MAX_RETRIES", "2"))
 DASHBOARD_URL = os.environ.get("DASHBOARD_URL", "")
 
-_openai = OpenAI()
-_runs = RunStore()
+# Lazy singletons: neither needs credentials until the graph actually runs,
+# which keeps imports (tests, tooling) credential-free.
+@lru_cache
+def _openai() -> OpenAI:
+    return OpenAI()
+
+
+@lru_cache
+def _runs() -> RunStore:
+    return RunStore()
 
 _PLAN_SCHEMA = {
     "name": "remediation_plan",
@@ -55,10 +64,10 @@ def detect_anomaly(state: AgentState) -> AgentState:
     if not anomaly:
         found = detect_anomalies()
         if not found:
-            _runs.log_step(state["run_id"], "detect_anomaly", {"result": "no anomalies"})
+            _runs().log_step(state["run_id"], "detect_anomaly", {"result": "no anomalies"})
             return {**state, "error": "no_anomalies"}
         anomaly = found[0]  # highest absolute delta
-    _runs.log_step(state["run_id"], "detect_anomaly", {"anomaly": anomaly})
+    _runs().log_step(state["run_id"], "detect_anomaly", {"anomaly": anomaly})
     return {**state, "anomaly": anomaly}
 
 
@@ -77,7 +86,7 @@ def rag_node(state: AgentState) -> AgentState:
             "committed-use discounts, autoscaling misconfiguration, and quota changes."
         )
     result = query_rag(question)
-    _runs.log_step(
+    _runs().log_step(
         state["run_id"], "query_rag",
         {"question": question, "n_contexts": len(result.get("contexts", [])), "retry": retries},
     )
@@ -89,7 +98,7 @@ def inspect_node(state: AgentState) -> AgentState:
     details = inspect_resource(
         a.get("project_id", ""), a.get("resource_name", ""), a.get("service", "")
     )
-    _runs.log_step(
+    _runs().log_step(
         state["run_id"], "inspect_resource",
         {"n_assets": len(details.get("assets", [])), "cpu_7d": details.get("cpu_utilization_7d_avg")},
     )
@@ -106,20 +115,20 @@ def plan_node(state: AgentState) -> AgentState:
         "confidence reflects how well the evidence supports the diagnosis; be honest — "
         "missing resource details or thin knowledge-base context means lower confidence."
     )
-    resp = _openai.chat.completions.create(
+    resp = _openai().chat.completions.create(
         model=os.environ.get("CHAT_MODEL", "gpt-4o"),
         temperature=0.2,
         messages=[{"role": "user", "content": prompt}],
         response_format={"type": "json_schema", "json_schema": _PLAN_SCHEMA},
     )
     plan = json.loads(resp.choices[0].message.content)
-    _runs.log_step(state["run_id"], "generate_plan", {"confidence": plan["confidence"]})
+    _runs().log_step(state["run_id"], "generate_plan", {"confidence": plan["confidence"]})
     return {**state, "plan": plan, "confidence": plan["confidence"]}
 
 
 def alert_node(state: AgentState) -> AgentState:
     ok = send_alert(state["anomaly"], state["plan"], state["run_id"], DASHBOARD_URL)
-    _runs.log_step(state["run_id"], "alert", {"sent": ok})
+    _runs().log_step(state["run_id"], "alert", {"sent": ok})
     return {**state, "alert_sent": ok}
 
 
@@ -160,13 +169,13 @@ def build_graph():
 def run_agent(anomaly: dict | None = None) -> AgentState:
     """Entry point used by the Cloud Function trigger and by evals."""
     state: AgentState = {"run_id": new_run_id(), "anomaly": anomaly or {}, "retries": 0}
-    _runs.start(state)
+    _runs().start(state)
     try:
         final = build_graph().invoke(state)
         status = "no_anomalies" if final.get("error") == "no_anomalies" else "completed"
-        _runs.finish(state["run_id"], final, status)
+        _runs().finish(state["run_id"], final, status)
         return final
     except Exception as exc:
         log.exception("agent run failed")
-        _runs.finish(state["run_id"], {**state, "error": str(exc)}, "failed")
+        _runs().finish(state["run_id"], {**state, "error": str(exc)}, "failed")
         raise

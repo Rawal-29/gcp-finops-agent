@@ -23,9 +23,10 @@ resource "google_project_service" "apis" {
 }
 
 module "iam" {
-  source     = "./modules/iam"
-  project_id = var.project_id
-  depends_on = [google_project_service.apis]
+  source      = "./modules/iam"
+  project_id  = var.project_id
+  github_repo = var.github_repo
+  depends_on  = [google_project_service.apis]
 }
 
 module "storage" {

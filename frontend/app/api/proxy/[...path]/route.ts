@@ -63,10 +63,14 @@ async function forward(req: NextRequest, path: string, allowed: Set<string>) {
   });
 }
 
-export async function GET(req: NextRequest, { params }: { params: { path: string[] } }) {
-  return forward(req, params.path.join("/"), ALLOWED_GET);
+type Params = { params: Promise<{ path: string[] }> };
+
+export async function GET(req: NextRequest, { params }: Params) {
+  const { path } = await params;
+  return forward(req, path.join("/"), ALLOWED_GET);
 }
 
-export async function POST(req: NextRequest, { params }: { params: { path: string[] } }) {
-  return forward(req, params.path.join("/"), ALLOWED_POST);
+export async function POST(req: NextRequest, { params }: Params) {
+  const { path } = await params;
+  return forward(req, path.join("/"), ALLOWED_POST);
 }

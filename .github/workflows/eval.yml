@@ -5,6 +5,10 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: read
+  id-token: write # OIDC token for keyless GCP auth (Workload Identity Federation)
+
 jobs:
   eval:
     runs-on: ubuntu-latest
@@ -51,17 +55,21 @@ jobs:
       - name: Run RAGAS evals
         run: python -m evals.run_evals --threshold-faithfulness 0.85
 
+      # Keyless auth via Workload Identity Federation; the two secrets are
+      # terraform outputs ci_wif_provider / ci_sa_email. Skipped when unset.
+      - name: Authenticate to GCP
+        id: gcp_auth
+        if: always() && github.event_name == 'pull_request' && vars.GCP_WIF_PROVIDER != ''
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_CI_SA }}
+
       - name: Log results to BigQuery
-        if: always() && github.event_name == 'pull_request'
+        if: always() && steps.gcp_auth.outcome == 'success'
         env:
-          GCP_PROJECT: ${{ secrets.GCP_PROJECT }}
-          GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GCP_SA_KEY }}
-        run: |
-          if [ -n "$GOOGLE_APPLICATION_CREDENTIALS_JSON" ]; then
-            echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/sa.json
-            export GOOGLE_APPLICATION_CREDENTIALS=/tmp/sa.json
-            python -m evals.log_results eval_results.json
-          fi
+          GCP_PROJECT: ${{ vars.GCP_PROJECT }}
+        run: python -m evals.log_results eval_results.json
 
       - name: Upload report artifact
         if: always()

@@ -21,3 +21,13 @@ output "sql_connection_name" {
 output "gke_cluster_name" {
   value = var.enable_gke ? module.gke[0].cluster_name : "disabled"
 }
+
+output "ci_sa_email" {
+  description = "Service account GitHub Actions impersonates (set as GCP_CI_SA repo secret)"
+  value       = module.iam.ci_sa_email
+}
+
+output "ci_wif_provider" {
+  description = "Workload Identity provider resource name (set as GCP_WIF_PROVIDER repo secret)"
+  value       = module.iam.ci_wif_provider
+}
