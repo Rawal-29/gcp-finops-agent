@@ -8,11 +8,6 @@ variable "region" {
   default = "us-central1"
 }
 
-variable "openai_api_key" {
-  type      = string
-  sensitive = true
-}
-
 variable "slack_webhook_url" {
   type      = string
   sensitive = true

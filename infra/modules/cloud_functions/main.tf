@@ -3,10 +3,7 @@ variable "region" { type = string }
 variable "agent_sa_email" { type = string }
 variable "trigger_topic_id" { type = string }
 variable "rag_api_url" { type = string }
-variable "openai_api_key" {
-  type      = string
-  sensitive = true
-}
+variable "openai_secret_id" { type = string }
 variable "slack_webhook_url" {
   type      = string
   sensitive = true
@@ -56,11 +53,17 @@ resource "google_cloudfunctions2_function" "agent_trigger" {
     environment_variables = {
       GCP_PROJECT          = var.project_id
       RAG_API_URL          = var.rag_api_url
-      OPENAI_API_KEY       = var.openai_api_key       # use Secret Manager ref in prod
       SLACK_WEBHOOK_URL    = var.slack_webhook_url
       BILLING_EXPORT_TABLE = var.billing_export_table
       CONFIDENCE_THRESHOLD = "0.7"
       MAX_RETRIES          = "2"
+    }
+
+    secret_environment_variables {
+      key        = "OPENAI_API_KEY"
+      project_id = var.project_id
+      secret     = var.openai_secret_id
+      version    = "latest"
     }
   }
 
@@ -73,3 +76,10 @@ resource "google_cloudfunctions2_function" "agent_trigger" {
 }
 
 output "function_name" { value = google_cloudfunctions2_function.agent_trigger.name }
+
+# The agent runs as its own SA and must read the OpenAI key at startup.
+resource "google_secret_manager_secret_iam_member" "agent_openai" {
+  secret_id = var.openai_secret_id
+  role      = "roles/secretmanager.secretAccessor"
+  member    = "serviceAccount:${var.agent_sa_email}"
+}
