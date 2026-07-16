@@ -28,13 +28,18 @@ RAG_API_URL = os.environ.get("RAG_API_URL", "http://localhost:8080")
 
 DEFAULT_THRESHOLDS = {
     "faithfulness": 0.85,
-    "answer_relevancy": 0.80,
+    # answer_relevancy is cosine similarity in the embedding model's own scale;
+    # text-embedding-005 scores a *perfect* answer ~0.63 where OpenAI's models
+    # score ~0.9, so the OpenAI-era 0.80 here would fail ideal output.
+    "answer_relevancy": 0.55,
     "context_recall": 0.75,
 }
 
 
 def collect_responses() -> Dataset:
-    rows = {"question": [], "answer": [], "contexts": [], "ground_truth": []}
+    # ragas 0.3 column names; the 0.2-era question/answer/contexts/ground_truth
+    # names silently mis-map and produce garbage scores.
+    rows = {"user_input": [], "response": [], "retrieved_contexts": [], "reference": []}
     for item in GOLDEN_DATASET:
         resp = requests.post(
             f"{RAG_API_URL}/query",
@@ -43,10 +48,10 @@ def collect_responses() -> Dataset:
         )
         resp.raise_for_status()
         data = resp.json()
-        rows["question"].append(item["question"])
-        rows["answer"].append(data["answer"] or "")
-        rows["contexts"].append([c["content"] for c in data["contexts"]])
-        rows["ground_truth"].append(item["ground_truth"])
+        rows["user_input"].append(item["question"])
+        rows["response"].append(data["answer"] or "")
+        rows["retrieved_contexts"].append([c["content"] for c in data["contexts"]])
+        rows["reference"].append(item["ground_truth"])
         print(f"  collected: {item['question'][:60]}...")
     return Dataset.from_dict(rows)
 

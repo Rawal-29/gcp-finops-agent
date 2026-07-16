@@ -117,7 +117,7 @@ Every PR runs `.github/workflows/eval.yml`: ephemeral pgvector + API in the runn
 | Metric | Threshold |
 |---|---|
 | Faithfulness | 0.85 |
-| Answer relevancy | 0.80 |
+| Answer relevancy | 0.55 (Vertex embedding cosine scale) |
 | Context recall | 0.75 |
 
 ## Design notes
