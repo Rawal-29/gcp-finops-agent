@@ -1,4 +1,6 @@
 langgraph==1.0.10
+pydantic==2.10.4
+pydantic-settings==2.10.1  # rag.config, imported via rag.llm
 google-genai==1.56.0
 requests==2.33.0
 functions-framework==3.8.2
