@@ -86,7 +86,6 @@ module "cloud_functions" {
   agent_sa_email       = module.iam.agent_sa_email
   trigger_topic_id     = module.pubsub.billing_alerts_topic_id
   rag_api_url          = module.cloud_run.api_url
-  openai_secret_id     = module.cloud_run.openai_secret_id
   slack_webhook_url    = var.slack_webhook_url
   billing_export_table = var.billing_export_table
   source_bucket        = module.storage.functions_bucket_name

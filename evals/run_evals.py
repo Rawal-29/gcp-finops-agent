@@ -15,10 +15,12 @@ import sys
 
 import requests
 from datasets import Dataset
+from langchain_google_vertexai import ChatVertexAI, VertexAIEmbeddings
 from ragas import evaluate
 from ragas.metrics import answer_relevancy, context_recall, faithfulness
 
 from evals.dataset import GOLDEN_DATASET
+from rag.config import get_settings
 
 RAG_API_URL = os.environ.get("RAG_API_URL", "http://localhost:8080")
 
@@ -57,7 +59,14 @@ def main() -> int:
     print(f"Running {len(GOLDEN_DATASET)} golden questions against {RAG_API_URL}")
     ds = collect_responses()
 
-    result = evaluate(ds, metrics=[faithfulness, answer_relevancy, context_recall])
+    # Judge and embeddings run on Vertex AI via ADC — keyless in CI through WIF.
+    s_cfg = get_settings()
+    result = evaluate(
+        ds,
+        metrics=[faithfulness, answer_relevancy, context_recall],
+        llm=ChatVertexAI(model_name=s_cfg.chat_model, location=s_cfg.vertex_location, temperature=0),
+        embeddings=VertexAIEmbeddings(model_name=s_cfg.embedding_model, location=s_cfg.vertex_location),
+    )
 
     def aggregate(name: str) -> float:
         v = result[name]

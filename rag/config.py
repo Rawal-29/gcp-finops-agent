@@ -5,11 +5,11 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    # OpenAI
-    openai_api_key: str = ""
-    embedding_model: str = "text-embedding-3-small"
-    embedding_dim: int = 1536
-    chat_model: str = "gpt-4o"
+    # Vertex AI (Gemini) — auth via ADC, no API key
+    embedding_model: str = "text-embedding-005"
+    embedding_dim: int = 768
+    chat_model: str = "gemini-2.5-flash"
+    vertex_location: str = "us-central1"
 
     # Cloud SQL (Postgres + pgvector). Use the Cloud SQL Auth Proxy socket in prod.
     db_host: str = "localhost"

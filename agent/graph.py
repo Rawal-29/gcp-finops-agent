@@ -15,7 +15,6 @@ import os
 from functools import lru_cache
 
 from langgraph.graph import END, START, StateGraph
-from openai import OpenAI
 
 from agent.state import AgentState, RunStore, new_run_id
 from agent.tools.bigquery import detect_anomalies
@@ -29,13 +28,8 @@ CONFIDENCE_THRESHOLD = float(os.environ.get("CONFIDENCE_THRESHOLD", "0.7"))
 MAX_RETRIES = int(os.environ.get("MAX_RETRIES", "2"))
 DASHBOARD_URL = os.environ.get("DASHBOARD_URL", "")
 
-# Lazy singletons: neither needs credentials until the graph actually runs,
+# Lazy singleton: no credentials needed until the graph actually runs,
 # which keeps imports (tests, tooling) credential-free.
-@lru_cache
-def _openai() -> OpenAI:
-    return OpenAI()
-
-
 @lru_cache
 def _runs() -> RunStore:
     return RunStore()
@@ -51,7 +45,6 @@ _PLAN_SCHEMA = {
             "confidence": {"type": "number", "minimum": 0, "maximum": 1},
         },
         "required": ["diagnosis", "remediation_steps", "est_monthly_savings", "confidence"],
-        "additionalProperties": False,
     },
     "strict": True,
 }
@@ -115,13 +108,11 @@ def plan_node(state: AgentState) -> AgentState:
         "confidence reflects how well the evidence supports the diagnosis; be honest — "
         "missing resource details or thin knowledge-base context means lower confidence."
     )
-    resp = _openai().chat.completions.create(
-        model=os.environ.get("CHAT_MODEL", "gpt-4o"),
-        temperature=0.2,
-        messages=[{"role": "user", "content": prompt}],
-        response_format={"type": "json_schema", "json_schema": _PLAN_SCHEMA},
+    from rag.llm import generate
+
+    plan = json.loads(
+        generate(prompt, temperature=0.2, response_schema=_PLAN_SCHEMA["schema"])
     )
-    plan = json.loads(resp.choices[0].message.content)
     _runs().log_step(state["run_id"], "generate_plan", {"confidence": plan["confidence"]})
     return {**state, "plan": plan, "confidence": plan["confidence"]}
 

@@ -13,6 +13,7 @@ resource "google_project_iam_member" "api_roles" {
     "roles/bigquery.dataViewer",
     "roles/bigquery.jobUser",
     "roles/datastore.viewer",
+    "roles/aiplatform.user",       # Vertex AI embeddings + Gemini
   ])
   project = var.project_id
   role    = each.value
@@ -32,6 +33,7 @@ resource "google_project_iam_member" "agent_roles" {
     "roles/datastore.user",        # agent run state
     "roles/cloudasset.viewer",     # resource inspection
     "roles/monitoring.viewer",     # utilization metrics
+    "roles/aiplatform.user",       # Gemini plan generation via rag.llm
     # run.invoker on the API service is granted per-service in cloud_run module
   ])
   project = var.project_id
@@ -86,8 +88,9 @@ resource "google_service_account" "ci" {
 
 resource "google_project_iam_member" "ci_roles" {
   for_each = var.github_repo == "" ? toset([]) : toset([
-    "roles/bigquery.dataEditor", # write eval_results
+    "roles/bigquery.dataEditor",  # write eval_results
     "roles/bigquery.jobUser",
+    "roles/aiplatform.user",      # RAGAS judge + embeddings in CI, keyless
   ])
   project = var.project_id
   role    = each.value

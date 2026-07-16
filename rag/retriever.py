@@ -9,7 +9,6 @@ import logging
 from dataclasses import dataclass
 
 import numpy as np
-from openai import OpenAI
 
 from rag.config import get_settings
 from rag.vector_store import VectorStore
@@ -65,13 +64,11 @@ class Retriever:
     def __init__(self, store: VectorStore | None = None) -> None:
         self.settings = get_settings()
         self.store = store or VectorStore()
-        self.openai = OpenAI(api_key=self.settings.openai_api_key)
 
     def embed_query(self, query: str) -> list[float]:
-        resp = self.openai.embeddings.create(
-            model=self.settings.embedding_model, input=[query]
-        )
-        return resp.data[0].embedding
+        from rag.llm import embed_texts
+
+        return embed_texts([query], for_query=True)[0]
 
     def retrieve(self, query: str, k: int | None = None) -> list[RetrievedChunk]:
         s = self.settings
@@ -91,27 +88,19 @@ class Retriever:
         ]
 
     def answer(self, query: str, k: int | None = None) -> dict:
-        """RAG answer: retrieve context then ground GPT-4o response in it."""
+        """RAG answer: retrieve context then ground the Gemini response in it."""
         chunks = self.retrieve(query, k)
         context = "\n\n---\n\n".join(
             f"[{i + 1}] (source: {c.source})\n{c.content}" for i, c in enumerate(chunks)
         )
-        resp = self.openai.chat.completions.create(
-            model=self.settings.chat_model,
-            temperature=0.1,
-            messages=[
-                {
-                    "role": "system",
-                    "content": (
-                        "You are a GCP FinOps expert. Answer ONLY from the provided "
-                        "context. Cite chunk numbers like [1]. If the context is "
-                        "insufficient, say so explicitly — do not guess prices."
-                    ),
-                },
-                {"role": "user", "content": f"Context:\n{context}\n\nQuestion: {query}"},
-            ],
+        from rag.llm import generate
+
+        answer = generate(
+            f"Context:\n{context}\n\nQuestion: {query}",
+            system=(
+                "You are a GCP FinOps expert. Answer ONLY from the provided "
+                "context. Cite chunk numbers like [1]. If the context is "
+                "insufficient, say so explicitly — do not guess prices."
+            ),
         )
-        return {
-            "answer": resp.choices[0].message.content,
-            "contexts": [c.to_dict() for c in chunks],
-        }
+        return {"answer": answer, "contexts": [c.to_dict() for c in chunks]}

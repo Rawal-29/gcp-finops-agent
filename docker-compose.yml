@@ -22,8 +22,11 @@ services:
     environment:
       DB_HOST: db
       DB_PASSWORD: localdev
-      OPENAI_API_KEY: ${OPENAI_API_KEY}
-      GCP_PROJECT: ${GCP_PROJECT:-}
+      GCP_PROJECT: ${GCP_PROJECT:?set to your GCP project for Vertex AI}
+      GOOGLE_APPLICATION_CREDENTIALS: /gcp/adc.json
+    volumes:
+      # Vertex AI auth: your local gcloud ADC, read-only
+      - ~/.config/gcloud/application_default_credentials.json:/gcp/adc.json:ro
     ports:
       - "8080:8080"
     depends_on:

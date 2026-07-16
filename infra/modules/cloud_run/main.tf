@@ -12,16 +12,7 @@ variable "db_password" {
 }
 variable "docs_bucket" { type = string }
 
-# Secrets. The OpenAI secret's VALUE is never managed by terraform — add it
-# out-of-band so state files and tfvars stay key-free:
-#   echo -n "sk-..." | gcloud secrets versions add openai-api-key --data-file=-
-resource "google_secret_manager_secret" "openai" {
-  secret_id = "openai-api-key"
-  replication {
-    auto {}
-  }
-}
-
+# Secrets
 resource "google_secret_manager_secret" "db_password" {
   secret_id = "finops-db-password"
   replication {
@@ -32,12 +23,6 @@ resource "google_secret_manager_secret" "db_password" {
 resource "google_secret_manager_secret_version" "db_password" {
   secret      = google_secret_manager_secret.db_password.id
   secret_data = var.db_password
-}
-
-resource "google_secret_manager_secret_iam_member" "api_openai" {
-  secret_id = google_secret_manager_secret.openai.id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${var.api_sa_email}"
 }
 
 resource "google_secret_manager_secret_iam_member" "api_db" {
@@ -91,15 +76,6 @@ resource "google_cloud_run_v2_service" "api" {
       env {
         name  = "GCS_BUCKET"
         value = var.docs_bucket
-      }
-      env {
-        name = "OPENAI_API_KEY"
-        value_source {
-          secret_key_ref {
-            secret  = google_secret_manager_secret.openai.secret_id
-            version = "latest"
-          }
-        }
       }
       env {
         name = "DB_PASSWORD"
@@ -178,5 +154,3 @@ resource "google_cloud_run_v2_service_iam_member" "frontend_public" {
 
 output "api_url" { value = google_cloud_run_v2_service.api.uri }
 output "frontend_url" { value = google_cloud_run_v2_service.frontend.uri }
-
-output "openai_secret_id" { value = google_secret_manager_secret.openai.secret_id }

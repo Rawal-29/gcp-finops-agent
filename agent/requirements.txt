@@ -1,5 +1,5 @@
 langgraph==1.0.10
-openai==1.59.5
+google-genai==1.56.0
 requests==2.33.0
 functions-framework==3.8.2
 cloudevents==1.11.0
@@ -7,4 +7,4 @@ google-cloud-bigquery==3.27.0
 google-cloud-firestore==2.19.0
 google-cloud-asset==3.27.1
 google-cloud-monitoring==2.24.0
-google-auth==2.37.0
+google-auth==2.56.0
