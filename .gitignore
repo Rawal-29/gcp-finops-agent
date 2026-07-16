@@ -17,6 +17,7 @@ out/
 *.tfstate.backup
 *.tfvars
 !example.tfvars
+!prod.auto.tfvars
 infra/modules/cloud_functions/agent-source.zip
 
 # Env / secrets
