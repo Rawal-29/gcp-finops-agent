@@ -13,6 +13,7 @@ import json
 import math
 import os
 import sys
+import time
 
 import requests
 from datasets import Dataset
@@ -41,11 +42,16 @@ def collect_responses() -> Dataset:
     # names silently mis-map and produce garbage scores.
     rows = {"user_input": [], "response": [], "retrieved_contexts": [], "reference": []}
     for item in GOLDEN_DATASET:
-        resp = requests.post(
-            f"{RAG_API_URL}/query",
-            json={"question": item["question"], "generate": True},
-            timeout=120,
-        )
+        # 5xx here is usually Vertex quota surfacing through the API; retry.
+        for attempt in range(3):
+            resp = requests.post(
+                f"{RAG_API_URL}/query",
+                json={"question": item["question"], "generate": True},
+                timeout=120,
+            )
+            if resp.status_code < 500 or attempt == 2:
+                break
+            time.sleep(20 * (attempt + 1))
         resp.raise_for_status()
         data = resp.json()
         rows["user_input"].append(item["question"])

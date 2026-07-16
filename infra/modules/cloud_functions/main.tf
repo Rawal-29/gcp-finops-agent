@@ -60,11 +60,21 @@ resource "google_cloudfunctions2_function" "agent_trigger" {
   }
 
   event_trigger {
-    trigger_region = var.region
-    event_type     = "google.cloud.pubsub.topic.v1.messagePublished"
-    pubsub_topic   = var.trigger_topic_id
-    retry_policy   = "RETRY_POLICY_DO_NOT_RETRY" # agent is not idempotent-cheap; DLQ instead
+    trigger_region        = var.region
+    event_type            = "google.cloud.pubsub.topic.v1.messagePublished"
+    pubsub_topic          = var.trigger_topic_id
+    retry_policy          = "RETRY_POLICY_DO_NOT_RETRY" # agent is not idempotent-cheap; DLQ instead
+    service_account_email = var.agent_sa_email          # identity Eventarc pushes with
   }
+}
+
+# Eventarc pushes as the agent SA; it must be allowed to invoke the
+# function's underlying (private) Cloud Run service.
+resource "google_cloud_run_v2_service_iam_member" "trigger_invoker" {
+  name     = google_cloudfunctions2_function.agent_trigger.name
+  location = var.region
+  role     = "roles/run.invoker"
+  member   = "serviceAccount:${var.agent_sa_email}"
 }
 
 output "function_name" { value = google_cloudfunctions2_function.agent_trigger.name }
