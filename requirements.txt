@@ -1,2 +1,15 @@
-# Cloud Functions deploy: mirrors agent/requirements.txt (GCF reads root requirements.txt)
--r agent/requirements.txt
+# Cloud Functions deploy: GCF reads only this root file, and its buildpack
+# caches the pip layer keyed on THIS file's content — `-r` includes are not
+# followed for cache-busting, so every pin lives inline here.
+langgraph==1.0.10
+pydantic==2.10.4
+pydantic-settings==2.10.1
+google-genai==1.56.0
+requests==2.33.0
+functions-framework==3.8.2
+cloudevents==1.11.0
+google-cloud-bigquery==3.27.0
+google-cloud-firestore==2.19.0
+google-cloud-asset==3.27.1
+google-cloud-monitoring==2.24.0
+google-auth==2.56.0
