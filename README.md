@@ -132,7 +132,7 @@ Every PR runs `.github/workflows/eval.yml`: ephemeral pgvector + API in the runn
 
 Deliberate demo-scale trade-offs; what a true enterprise rollout changes:
 
-- **Vector store scale.** pgvector on a 1-vCPU Cloud SQL instance with an ivfflat index is fine to a few million chunks. Enterprise path: HNSW index first, then Vertex AI Vector Search — the `VectorStore` interface is the seam to swap behind.
+- **Vector store scale.** pgvector on a 1-vCPU Cloud SQL instance with an HNSW index is fine to a few million chunks. Enterprise path: Vertex AI Vector Search — the `VectorStore` interface is the seam to swap behind.
 - **Dashboard is public.** The API is private, but the dashboard itself has no login. Next: Identity-Aware Proxy in front of it.
 - **Single-anomaly agent.** One anomaly per trigger. Enterprise: fan out one Pub/Sub message per anomaly, plus a Slack-button approval step before remediation is executed rather than just proposed.
 - **Eval gate tests the RAG path, not the full agent.** Next: agent-level evals replaying recorded anomaly scenarios with LLM-as-judge scoring of remediation plans, gated the same way.
