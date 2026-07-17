@@ -59,32 +59,33 @@ GOLDEN_DATASET: list[dict] = [
 
 
 def generate_candidates(n: int = 38) -> list[dict]:
-    """Draft additional Q&A candidates with GPT-4o for HUMAN REVIEW.
+    """Draft additional Q&A candidates with Gemini for HUMAN REVIEW.
 
     Writes candidates.json — review, edit, then merge into GOLDEN_DATASET.
     """
     import json
 
-    from openai import OpenAI
+    from rag.llm import generate
 
-    client = OpenAI()
-    resp = client.chat.completions.create(
-        model="gpt-4o",
+    text = generate(
+        f"Generate {n} question/ground_truth pairs about GCP cost optimization "
+        "scenarios (JSON array, keys: question, ground_truth). Cover: Pub/Sub, "
+        "Dataflow, Vertex AI, Cloud Functions, logging/monitoring costs, "
+        "snapshots, load balancers. Ground truths must be factual and specific.",
         temperature=0.8,
-        messages=[
-            {
-                "role": "user",
-                "content": (
-                    f"Generate {n} question/ground_truth pairs about GCP cost optimization "
-                    "scenarios (JSON array, keys: question, ground_truth). Cover: Pub/Sub, "
-                    "Dataflow, Vertex AI, Cloud Functions, logging/monitoring costs, "
-                    "snapshots, load balancers. Ground truths must be factual and specific."
-                ),
-            }
-        ],
-        response_format={"type": "json_object"},
+        response_schema={
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "question": {"type": "string"},
+                    "ground_truth": {"type": "string"},
+                },
+                "required": ["question", "ground_truth"],
+            },
+        },
     )
-    candidates = json.loads(resp.choices[0].message.content)
+    candidates = json.loads(text)
     with open("evals/candidates.json", "w") as f:
         json.dump(candidates, f, indent=2)
     return candidates

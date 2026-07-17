@@ -10,25 +10,9 @@ variable "db_password" {
   type      = string
   sensitive = true
 }
-variable "openai_api_key" {
-  type      = string
-  sensitive = true
-}
 variable "docs_bucket" { type = string }
 
 # Secrets
-resource "google_secret_manager_secret" "openai" {
-  secret_id = "openai-api-key"
-  replication {
-    auto {}
-  }
-}
-
-resource "google_secret_manager_secret_version" "openai" {
-  secret      = google_secret_manager_secret.openai.id
-  secret_data = var.openai_api_key
-}
-
 resource "google_secret_manager_secret" "db_password" {
   secret_id = "finops-db-password"
   replication {
@@ -41,12 +25,6 @@ resource "google_secret_manager_secret_version" "db_password" {
   secret_data = var.db_password
 }
 
-resource "google_secret_manager_secret_iam_member" "api_openai" {
-  secret_id = google_secret_manager_secret.openai.id
-  role      = "roles/secretmanager.secretAccessor"
-  member    = "serviceAccount:${var.api_sa_email}"
-}
-
 resource "google_secret_manager_secret_iam_member" "api_db" {
   secret_id = google_secret_manager_secret.db_password.id
   role      = "roles/secretmanager.secretAccessor"
@@ -55,8 +33,9 @@ resource "google_secret_manager_secret_iam_member" "api_db" {
 
 # FastAPI service
 resource "google_cloud_run_v2_service" "api" {
-  name     = "finops-api"
-  location = var.region
+  name                = "finops-api"
+  location            = var.region
+  deletion_protection = false # demo project; set true in prod
   ingress  = "INGRESS_TRAFFIC_ALL" # tighten to INTERNAL + LB in prod
 
   template {
@@ -99,15 +78,6 @@ resource "google_cloud_run_v2_service" "api" {
         value = var.docs_bucket
       }
       env {
-        name = "OPENAI_API_KEY"
-        value_source {
-          secret_key_ref {
-            secret  = google_secret_manager_secret.openai.secret_id
-            version = "latest"
-          }
-        }
-      }
-      env {
         name = "DB_PASSWORD"
         value_source {
           secret_key_ref {
@@ -126,15 +96,15 @@ resource "google_cloud_run_v2_service" "api" {
   }
 
   depends_on = [
-    google_secret_manager_secret_version.openai,
     google_secret_manager_secret_version.db_password,
   ]
 }
 
 # Next.js dashboard
 resource "google_cloud_run_v2_service" "frontend" {
-  name     = "finops-dashboard"
-  location = var.region
+  name                = "finops-dashboard"
+  location            = var.region
+  deletion_protection = false # demo project; set true in prod
   ingress  = "INGRESS_TRAFFIC_ALL"
 
   template {

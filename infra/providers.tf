@@ -6,11 +6,10 @@ terraform {
       version = "~> 6.0"
     }
   }
-  # Recommended: uncomment for team use
-  # backend "gcs" {
-  #   bucket = "YOUR_TF_STATE_BUCKET"
-  #   prefix = "finops-agent"
-  # }
+  backend "gcs" {
+    bucket = "project-972b17a4-c001-4b85-b4b-tfstate"
+    prefix = "finops-agent"
+  }
 }
 
 provider "google" {

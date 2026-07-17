@@ -12,8 +12,9 @@ permissions:
 jobs:
   eval:
     runs-on: ubuntu-latest
-    # Spins an ephemeral RAG stack (pgvector + API) inside the runner,
-    # seeds it with fixture docs, then scores it with RAGAS.
+    # Spins an ephemeral RAG stack (pgvector + API) inside the runner, seeds it
+    # with fixture docs, then scores it with RAGAS. Embeddings, generation, and
+    # the judge all run on Vertex AI — authenticated via WIF, no API keys.
     services:
       postgres:
         image: pgvector/pgvector:pg16
@@ -27,13 +28,22 @@ jobs:
           --health-interval 5s --health-retries 10
 
     env:
-      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       DB_HOST: localhost
       DB_PASSWORD: ci
       RAG_API_URL: http://localhost:8080
+      GCP_PROJECT: ${{ vars.GCP_PROJECT }}
 
     steps:
       - uses: actions/checkout@v4
+
+      # Keyless auth via Workload Identity Federation; the two repo variables
+      # are terraform outputs ci_wif_provider / ci_sa_email. Must run before
+      # anything that touches Vertex AI.
+      - name: Authenticate to GCP
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_CI_SA }}
 
       - uses: actions/setup-python@v5
         with:
@@ -55,20 +65,9 @@ jobs:
       - name: Run RAGAS evals
         run: python -m evals.run_evals --threshold-faithfulness 0.85
 
-      # Keyless auth via Workload Identity Federation; the two secrets are
-      # terraform outputs ci_wif_provider / ci_sa_email. Skipped when unset.
-      - name: Authenticate to GCP
-        id: gcp_auth
-        if: always() && github.event_name == 'pull_request' && vars.GCP_WIF_PROVIDER != ''
-        uses: google-github-actions/auth@v2
-        with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_CI_SA }}
-
       - name: Log results to BigQuery
-        if: always() && steps.gcp_auth.outcome == 'success'
-        env:
-          GCP_PROJECT: ${{ vars.GCP_PROJECT }}
+        # hashFiles guards the case where the eval step died before writing a report
+        if: always() && hashFiles('eval_results.json') != ''
         run: python -m evals.log_results eval_results.json
 
       - name: Upload report artifact

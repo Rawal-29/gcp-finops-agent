@@ -10,39 +10,54 @@ from __future__ import annotations
 
 import argparse
 import json
+import math
 import os
 import sys
+import time
 
 import requests
 from datasets import Dataset
+from langchain_google_vertexai import ChatVertexAI, VertexAIEmbeddings
 from ragas import evaluate
+from ragas.run_config import RunConfig
 from ragas.metrics import answer_relevancy, context_recall, faithfulness
 
 from evals.dataset import GOLDEN_DATASET
+from rag.config import get_settings
 
 RAG_API_URL = os.environ.get("RAG_API_URL", "http://localhost:8080")
 
 DEFAULT_THRESHOLDS = {
     "faithfulness": 0.85,
-    "answer_relevancy": 0.80,
+    # answer_relevancy is cosine similarity in the embedding model's own scale;
+    # text-embedding-005 scores a *perfect* answer ~0.63 where OpenAI's models
+    # score ~0.9, so the OpenAI-era 0.80 here would fail ideal output.
+    "answer_relevancy": 0.55,
     "context_recall": 0.75,
 }
 
 
 def collect_responses() -> Dataset:
-    rows = {"question": [], "answer": [], "contexts": [], "ground_truth": []}
+    # ragas 0.3 column names; the 0.2-era question/answer/contexts/ground_truth
+    # names silently mis-map and produce garbage scores.
+    rows = {"user_input": [], "response": [], "retrieved_contexts": [], "reference": []}
     for item in GOLDEN_DATASET:
-        resp = requests.post(
-            f"{RAG_API_URL}/query",
-            json={"question": item["question"], "generate": True},
-            timeout=120,
-        )
+        # 5xx here is usually Vertex quota surfacing through the API; retry.
+        for attempt in range(3):
+            resp = requests.post(
+                f"{RAG_API_URL}/query",
+                json={"question": item["question"], "generate": True},
+                timeout=120,
+            )
+            if resp.status_code < 500 or attempt == 2:
+                break
+            time.sleep(20 * (attempt + 1))
         resp.raise_for_status()
         data = resp.json()
-        rows["question"].append(item["question"])
-        rows["answer"].append(data["answer"] or "")
-        rows["contexts"].append([c["content"] for c in data["contexts"]])
-        rows["ground_truth"].append(item["ground_truth"])
+        rows["user_input"].append(item["question"])
+        rows["response"].append(data["answer"] or "")
+        rows["retrieved_contexts"].append([c["content"] for c in data["contexts"]])
+        rows["reference"].append(item["ground_truth"])
         print(f"  collected: {item['question'][:60]}...")
     return Dataset.from_dict(rows)
 
@@ -57,14 +72,27 @@ def main() -> int:
     print(f"Running {len(GOLDEN_DATASET)} golden questions against {RAG_API_URL}")
     ds = collect_responses()
 
-    result = evaluate(ds, metrics=[faithfulness, answer_relevancy, context_recall])
+    # Judge and embeddings run on Vertex AI via ADC — keyless in CI through WIF.
+    s_cfg = get_settings()
+    result = evaluate(
+        ds,
+        metrics=[faithfulness, answer_relevancy, context_recall],
+        llm=ChatVertexAI(model_name=s_cfg.chat_model, location=s_cfg.vertex_location, temperature=0),
+        embeddings=VertexAIEmbeddings(model_name=s_cfg.embedding_model, location=s_cfg.vertex_location),
+        # Low concurrency + generous timeout: fresh projects have tight Gemini
+        # QPM quotas, and a 429-starved run yields NaN scores.
+        run_config=RunConfig(max_workers=2, timeout=180),
+    )
 
     def aggregate(name: str) -> float:
         v = result[name]
         # ragas returns a per-sample list here (a bare float on older versions)
         if isinstance(v, (list, tuple)):
-            return float(sum(v) / len(v))
-        return float(v)
+            vals = [x for x in v if not math.isnan(x)]
+            v = sum(vals) / len(vals) if vals else float("nan")
+        # NaN means the judge never scored (quota/timeouts) — fail loudly as 0,
+        # and keep the report JSON valid for BigQuery.
+        return 0.0 if math.isnan(v) else float(v)
 
     scores = {m: aggregate(m) for m in DEFAULT_THRESHOLDS}
 

@@ -31,3 +31,8 @@ output "ci_wif_provider" {
   description = "Workload Identity provider resource name (set as GCP_WIF_PROVIDER repo secret)"
   value       = module.iam.ci_wif_provider
 }
+
+output "deployer_sa_email" {
+  description = "Service account CD impersonates for terraform apply (set as GCP_DEPLOYER_SA repo variable)"
+  value       = module.iam.deployer_sa_email
+}

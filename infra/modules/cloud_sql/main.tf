@@ -11,16 +11,14 @@ resource "google_sql_database_instance" "pgvector" {
   region           = var.region
 
   settings {
+    edition           = "ENTERPRISE"      # db-custom tiers are invalid on the ENTERPRISE_PLUS default
     tier              = "db-custom-1-3840" # 1 vCPU, 3.75GB — demo-sized
     availability_type = "ZONAL"
     disk_size         = 10
     disk_autoresize   = true
 
-    database_flags {
-      name  = "cloudsql.enable_pgvector" # not required on PG16 images, harmless
-      value = "on"
-    }
-
+    # pgvector ships with PG16 Cloud SQL images; enabled via CREATE EXTENSION at
+    # schema init, no instance flag exists (or is needed).
     ip_configuration {
       ipv4_enabled = true # Cloud Run connects via Cloud SQL connector, not public IP auth
     }

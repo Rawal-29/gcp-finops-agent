@@ -1,6 +1,6 @@
 """pgvector CRUD on Cloud SQL Postgres.
 
-Schema: one `documents` table with an ivfflat index on the embedding column.
+Schema: one `documents` table with an HNSW index on the embedding column.
 Uses a small connection pool; safe for Cloud Run concurrency.
 """
 from __future__ import annotations
@@ -32,8 +32,12 @@ CREATE TABLE IF NOT EXISTS documents (
     UNIQUE (source, chunk_index)
 );
 
-CREATE INDEX IF NOT EXISTS documents_embedding_idx
-    ON documents USING ivfflat (embedding vector_cosine_ops) WITH (lists = 100);
+-- HNSW: solid recall from 5 rows to millions with no lists tuning. The old
+-- ivfflat index (lists=100) had near-zero recall on small corpora because
+-- only 1 of 100 lists is probed by default.
+DROP INDEX IF EXISTS documents_embedding_idx;
+CREATE INDEX IF NOT EXISTS documents_embedding_hnsw
+    ON documents USING hnsw (embedding vector_cosine_ops);
 """
 
 
@@ -66,8 +70,19 @@ class VectorStore:
             self._pool.putconn(conn)
 
     def init_schema(self) -> None:
-        with self._conn() as conn, conn.cursor() as cur:
-            cur.execute(_SCHEMA % {"dim": self._dim})
+        # Uses the pool directly: on a fresh database the vector type doesn't
+        # exist until _SCHEMA's CREATE EXTENSION runs, so the _conn() helper
+        # (which calls register_vector) would fail here.
+        conn = self._pool.getconn()
+        try:
+            with conn.cursor() as cur:
+                cur.execute(_SCHEMA % {"dim": self._dim})
+            conn.commit()
+        except Exception:
+            conn.rollback()
+            raise
+        finally:
+            self._pool.putconn(conn)
         log.info("schema ready (dim=%s)", self._dim)
 
     def upsert_chunks(

@@ -5,7 +5,6 @@ eval job tests retrieval + generation deterministically.
 """
 from __future__ import annotations
 
-from openai import OpenAI
 
 from rag.config import get_settings
 from rag.ingest import chunk_text, embed_texts
@@ -81,11 +80,10 @@ def main() -> None:
     s = get_settings()
     store = VectorStore()
     store.init_schema()
-    client = OpenAI(api_key=s.openai_api_key)
     total = 0
     for source, text in FIXTURE_DOCS.items():
         chunks = chunk_text(text, s.chunk_size, s.chunk_overlap)
-        embeddings = embed_texts(client, chunks)
+        embeddings = embed_texts(chunks)
         total += store.upsert_chunks(source, chunks, embeddings, {"fixture": True})
     print(f"seeded {total} fixture chunks")
 

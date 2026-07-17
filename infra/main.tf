@@ -75,7 +75,6 @@ module "cloud_run" {
   agent_sa_email        = module.iam.agent_sa_email
   sql_connection_name   = module.cloud_sql.connection_name
   db_password           = var.db_password
-  openai_api_key        = var.openai_api_key
   docs_bucket           = module.storage.docs_bucket_name
   depends_on            = [google_project_service.apis]
 }
@@ -87,7 +86,6 @@ module "cloud_functions" {
   agent_sa_email       = module.iam.agent_sa_email
   trigger_topic_id     = module.pubsub.billing_alerts_topic_id
   rag_api_url          = module.cloud_run.api_url
-  openai_api_key       = var.openai_api_key
   slack_webhook_url    = var.slack_webhook_url
   billing_export_table = var.billing_export_table
   source_bucket        = module.storage.functions_bucket_name

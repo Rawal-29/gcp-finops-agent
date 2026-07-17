@@ -13,6 +13,7 @@ resource "google_project_iam_member" "api_roles" {
     "roles/bigquery.dataViewer",
     "roles/bigquery.jobUser",
     "roles/datastore.viewer",
+    "roles/aiplatform.user",       # Vertex AI embeddings + Gemini
   ])
   project = var.project_id
   role    = each.value
@@ -32,6 +33,7 @@ resource "google_project_iam_member" "agent_roles" {
     "roles/datastore.user",        # agent run state
     "roles/cloudasset.viewer",     # resource inspection
     "roles/monitoring.viewer",     # utilization metrics
+    "roles/aiplatform.user",       # Gemini plan generation via rag.llm
     # run.invoker on the API service is granted per-service in cloud_run module
   ])
   project = var.project_id
@@ -86,8 +88,9 @@ resource "google_service_account" "ci" {
 
 resource "google_project_iam_member" "ci_roles" {
   for_each = var.github_repo == "" ? toset([]) : toset([
-    "roles/bigquery.dataEditor", # write eval_results
+    "roles/bigquery.dataEditor",  # write eval_results
     "roles/bigquery.jobUser",
+    "roles/aiplatform.user",      # RAGAS judge + embeddings in CI, keyless
   ])
   project = var.project_id
   role    = each.value
@@ -103,3 +106,47 @@ resource "google_service_account_iam_member" "ci_wif" {
 
 output "ci_sa_email" { value = var.github_repo == "" ? "" : google_service_account.ci[0].email }
 output "ci_wif_provider" { value = var.github_repo == "" ? "" : google_iam_workload_identity_pool_provider.github[0].name }
+
+# Deployer for CD: GitHub Actions runs terraform apply on merge to main.
+# Broad by necessity (terraform manages IAM, secrets, and all services);
+# scoped to this repo through the WIF provider's attribute condition.
+resource "google_service_account" "deployer" {
+  count        = var.github_repo == "" ? 0 : 1
+  account_id   = "finops-deployer"
+  display_name = "FinOps CD (terraform apply from GitHub Actions)"
+}
+
+resource "google_project_iam_member" "deployer_roles" {
+  for_each = var.github_repo == "" ? toset([]) : toset([
+    "roles/editor",
+    "roles/resourcemanager.projectIamAdmin", # project-level IAM bindings
+    "roles/iam.workloadIdentityPoolAdmin",   # manages this WIF pool itself
+    "roles/iam.serviceAccountAdmin",         # creates/updates service accounts
+    "roles/secretmanager.admin",             # secret containers + their IAM
+    "roles/run.admin",                       # Cloud Run services + invoker IAM
+  ])
+  project = var.project_id
+  role    = each.value
+  member  = "serviceAccount:${google_service_account.deployer[0].email}"
+}
+
+resource "google_service_account_iam_member" "deployer_wif" {
+  count              = var.github_repo == "" ? 0 : 1
+  service_account_id = google_service_account.deployer[0].name
+  role               = "roles/iam.workloadIdentityUser"
+  member             = "principalSet://iam.googleapis.com/${google_iam_workload_identity_pool.github[0].name}/attribute.repository/${var.github_repo}"
+}
+
+# Terraform impersonates service accounts when deploying Cloud Run/Functions
+resource "google_service_account_iam_member" "deployer_actas" {
+  for_each = var.github_repo == "" ? {} : {
+    api      = google_service_account.api.name
+    agent    = google_service_account.agent.name
+    frontend = google_service_account.frontend.name
+  }
+  service_account_id = each.value
+  role               = "roles/iam.serviceAccountUser"
+  member             = "serviceAccount:${google_service_account.deployer[0].email}"
+}
+
+output "deployer_sa_email" { value = var.github_repo == "" ? "" : google_service_account.deployer[0].email }

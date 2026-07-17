@@ -11,16 +11,13 @@ import logging
 import re
 
 from google.cloud import storage
-from openai import OpenAI
 from pypdf import PdfReader
 
 from rag.config import get_settings
+from rag.llm import embed_texts
 from rag.vector_store import VectorStore
 
 log = logging.getLogger(__name__)
-
-EMBED_BATCH = 100  # OpenAI embeddings API batch size
-
 
 def extract_pdf_text(data: bytes) -> str:
     reader = PdfReader(io.BytesIO(data))
@@ -53,22 +50,11 @@ def chunk_text(text: str, chunk_size: int, overlap: int) -> list[str]:
     return [c for c in chunks if len(c) > 50]  # drop noise fragments
 
 
-def embed_texts(client: OpenAI, texts: list[str]) -> list[list[float]]:
-    s = get_settings()
-    out: list[list[float]] = []
-    for i in range(0, len(texts), EMBED_BATCH):
-        batch = texts[i : i + EMBED_BATCH]
-        resp = client.embeddings.create(model=s.embedding_model, input=batch)
-        out.extend(d.embedding for d in resp.data)
-    return out
-
-
 def ingest_bucket(prefix: str = "") -> dict:
     """Ingest every PDF under gs://<bucket>/<prefix>. Returns summary stats."""
     s = get_settings()
     gcs = storage.Client(project=s.gcp_project or None)
     bucket = gcs.bucket(s.gcs_bucket)
-    openai_client = OpenAI(api_key=s.openai_api_key)
     store = VectorStore()
     store.init_schema()
 
@@ -83,7 +69,7 @@ def ingest_bucket(prefix: str = "") -> dict:
             if not chunks:
                 stats["skipped"].append(uri)
                 continue
-            embeddings = embed_texts(openai_client, chunks)
+            embeddings = embed_texts(chunks)
             n = store.upsert_chunks(uri, chunks, embeddings, metadata={"filename": blob.name})
             stats["files"] += 1
             stats["chunks"] += n
