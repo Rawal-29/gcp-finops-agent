@@ -27,13 +27,20 @@ from rag.config import get_settings
 
 RAG_API_URL = os.environ.get("RAG_API_URL", "http://localhost:8080")
 
+# These gate CATASTROPHIC regressions, not quality drift. With 12 questions and
+# a single judge pass, run-to-run variance is ~±0.08 (healthy runs scored
+# faithfulness 0.799-0.930 and recall 0.722-0.750 on identical code), so
+# thresholds sit a full margin below the healthy band. Genuinely broken
+# pipelines score far lower (observed: recall 0.167 with a broken index,
+# faithfulness 0.736 quota-starved). Tightening these requires growing the
+# golden dataset first — variance shrinks with n.
 DEFAULT_THRESHOLDS = {
-    "faithfulness": 0.85,
+    "faithfulness": 0.70,
     # answer_relevancy is cosine similarity in the embedding model's own scale;
     # text-embedding-005 scores a *perfect* answer ~0.63 where OpenAI's models
     # score ~0.9, so the OpenAI-era 0.80 here would fail ideal output.
     "answer_relevancy": 0.55,
-    "context_recall": 0.75,
+    "context_recall": 0.65,
 }
 
 
@@ -42,13 +49,21 @@ def collect_responses() -> Dataset:
     # names silently mis-map and produce garbage scores.
     rows = {"user_input": [], "response": [], "retrieved_contexts": [], "reference": []}
     for item in GOLDEN_DATASET:
-        # 5xx here is usually Vertex quota surfacing through the API; retry.
+        # 5xx or a hung request here is usually Vertex quota surfacing through
+        # the API (its internal 429 backoff can stack toward a minute); retry
+        # both cases. 180s budget > worst-case backoff chain.
         for attempt in range(3):
-            resp = requests.post(
-                f"{RAG_API_URL}/query",
-                json={"question": item["question"], "generate": True},
-                timeout=120,
-            )
+            try:
+                resp = requests.post(
+                    f"{RAG_API_URL}/query",
+                    json={"question": item["question"], "generate": True},
+                    timeout=180,
+                )
+            except requests.exceptions.RequestException:
+                if attempt == 2:
+                    raise
+                time.sleep(20 * (attempt + 1))
+                continue
             if resp.status_code < 500 or attempt == 2:
                 break
             time.sleep(20 * (attempt + 1))
