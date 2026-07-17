@@ -13,6 +13,11 @@ locals {
     "container.googleapis.com",
     "secretmanager.googleapis.com",
     "eventarc.googleapis.com",
+    # terraform itself (as the CD deployer SA) needs these to read/manage the rest
+    "cloudresourcemanager.googleapis.com",
+    "serviceusage.googleapis.com",
+    "iam.googleapis.com",
+    "iamcredentials.googleapis.com",
   ]
 }
 
