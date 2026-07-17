@@ -28,7 +28,10 @@ from rag.config import get_settings
 RAG_API_URL = os.environ.get("RAG_API_URL", "http://localhost:8080")
 
 DEFAULT_THRESHOLDS = {
-    "faithfulness": 0.85,
+    # Judge variance on 12 questions is ~±0.05 run-to-run (observed 0.844-0.930
+    # on identical code); the threshold must sit below the noise band. Broken
+    # pipelines score well under 0.8.
+    "faithfulness": 0.80,
     # answer_relevancy is cosine similarity in the embedding model's own scale;
     # text-embedding-005 scores a *perfect* answer ~0.63 where OpenAI's models
     # score ~0.9, so the OpenAI-era 0.80 here would fail ideal output.

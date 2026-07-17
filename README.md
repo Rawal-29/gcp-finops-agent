@@ -51,7 +51,7 @@ START → detect_anomaly → query_rag → inspect_resource → generate_plan �
 | `frontend/` | Next.js 15 dashboard: anomaly feed, agent run timeline, eval trend chart; server-side proxy so the browser never holds credentials |
 | `infra/` | Terraform (remote state in GCS): Cloud SQL, Cloud Run ×2, Cloud Functions, Pub/Sub, BigQuery, Firestore, Storage, IAM + WIF, optional GKE |
 | `k8s/` | Alternative GKE deployment of the API (Deployment + Service + HPA + Cloud SQL proxy sidecar, Workload Identity for Vertex) |
-| `.github/workflows/eval.yml` | RAGAS eval gate on every PR — fails below faithfulness 0.85 |
+| `.github/workflows/eval.yml` | RAGAS eval gate on every PR — fails below faithfulness 0.80 |
 | `.github/workflows/deploy.yml` | Merge to main touching `infra/` → terraform plan + apply |
 
 ## Security model
@@ -116,7 +116,7 @@ Every PR runs `.github/workflows/eval.yml`: ephemeral pgvector + API in the runn
 
 | Metric | Threshold |
 |---|---|
-| Faithfulness | 0.85 |
+| Faithfulness | 0.80 (judge variance ±0.05 on n=12) |
 | Answer relevancy | 0.55 (Vertex embedding cosine scale) |
 | Context recall | 0.75 |
 

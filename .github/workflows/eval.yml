@@ -63,7 +63,7 @@ jobs:
         run: python -m evals.seed_fixtures
 
       - name: Run RAGAS evals
-        run: python -m evals.run_evals --threshold-faithfulness 0.85
+        run: python -m evals.run_evals
 
       - name: Log results to BigQuery
         # hashFiles guards the case where the eval step died before writing a report
