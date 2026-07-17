@@ -49,13 +49,21 @@ def collect_responses() -> Dataset:
     # names silently mis-map and produce garbage scores.
     rows = {"user_input": [], "response": [], "retrieved_contexts": [], "reference": []}
     for item in GOLDEN_DATASET:
-        # 5xx here is usually Vertex quota surfacing through the API; retry.
+        # 5xx or a hung request here is usually Vertex quota surfacing through
+        # the API (its internal 429 backoff can stack toward a minute); retry
+        # both cases. 180s budget > worst-case backoff chain.
         for attempt in range(3):
-            resp = requests.post(
-                f"{RAG_API_URL}/query",
-                json={"question": item["question"], "generate": True},
-                timeout=120,
-            )
+            try:
+                resp = requests.post(
+                    f"{RAG_API_URL}/query",
+                    json={"question": item["question"], "generate": True},
+                    timeout=180,
+                )
+            except requests.exceptions.RequestException:
+                if attempt == 2:
+                    raise
+                time.sleep(20 * (attempt + 1))
+                continue
             if resp.status_code < 500 or attempt == 2:
                 break
             time.sleep(20 * (attempt + 1))
